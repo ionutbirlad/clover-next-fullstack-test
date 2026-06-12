@@ -13,12 +13,14 @@
     "migrate:up": "ENV=$(cat /home/ec2-user/env 2>/dev/null || echo dev) npx migrate up --store=./db/db-migrate-store.js --migrations-dir ./db/migrations",
     "migrate:down": "ENV=$(cat /home/ec2-user/env 2>/dev/null || echo dev) npx migrate down --store=./db/db-migrate-store.js --migrations-dir ./db/migrations",
     "migrate:create": "ENV=$(cat /home/ec2-user/env 2>/dev/null || echo dev) npx migrate create --migrations-dir ./db/migrations",
-    "lint": "eslint . --ext .js",
-    "format": "prettier --write \"./**/*.{json,js,yml,md}\"",
-    "format:check": "prettier --check \"./**/*.{json,js,yml,md}\""
+    "lint": "eslint . --ext .js --ignore-pattern coverage",
+    "format": "prettier --write \"**/*.{json,js,yml,md}\" \"!coverage/**\"",
+    "format:check": "prettier --check \"**/*.{json,js,yml,md}\" \"!coverage/**\""
   },
   "dependencies": {
+    "@aws-sdk/client-lambda": "^3.1067.0",
     "@aws-sdk/client-s3": "^3.598.0",
+    "@aws-sdk/client-secrets-manager": "^3.1067.0",
     "@aws-sdk/client-ses": "^3.598.0",
     "@aws-sdk/s3-request-presigner": "^3.598.0",
     "ajv": "^8.16.0",

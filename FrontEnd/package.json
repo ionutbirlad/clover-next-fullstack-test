@@ -8,10 +8,10 @@
     "build": "vite build --target=es2020",
     "preview": "vite preview",
     "default-theme": "node src/theme/ant.config.default.js && npx tailwindcss init --full src/theme/tailwind.config.default.js",
-    "stylelint": "stylelint \"./**/*.css\"",
-    "lint": "eslint . --ext .jsx,.js",
-    "format": "prettier --write \"./**/*.{json,js,yml,md}\"",
-    "format:check": "prettier --check \"./**/*.{json,js,yml,md}\""
+    "stylelint": "stylelint \"src/**/*.css\"",
+    "lint": "eslint src --ext .jsx,.js",
+    "format": "prettier --write \"src/**/*.{json,js,jsx,css,md}\" \"public/**/*.{json,md}\" \"*.{json,js,yml,md}\"",
+    "format:check": "prettier --check \"src/**/*.{json,js,jsx,css,md}\" \"public/**/*.{json,md}\" \"*.{json,js,yml,md}\""
   },
   "browserslist": [
     "defaults"
