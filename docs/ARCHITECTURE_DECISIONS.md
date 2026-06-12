@@ -59,7 +59,7 @@ Ridurre il rischio di regressioni e mantenere la codebase facilmente comprensibi
 
 ---
 
-# ADR-003 - Environment Configuration Standards
+# ADR-003 - Defer Environment Configuration Cleanup
 
 ## Context
 
@@ -67,17 +67,19 @@ Il repository include un file `.env` versionato direttamente.
 
 ## Decision
 
-Adottare una configurazione standard basata su `.env.example` e `.gitignore`.
+Non intervenire sulla gestione degli `.env` durante l'assessment.
 
 ## Rationale
 
-Migliorare la maintainability del progetto e allinearsi alle pratiche comuni di sviluppo.
+In un progetto reale sarebbe preferibile usare `.env.example` e mantenere i secret locali fuori dal repository.
+
+In questo assessment, pero', i valori inclusi nel template servono a rendere il progetto immediatamente avviabile per chi lo valuta. Estrarli in `.env.example` richiederebbe comunque di documentare gli stessi valori in chiaro, aggiungendo frizione senza reale valore funzionale.
 
 ## Consequences
 
-- Introduzione di `.env.example`.
-- Aggiornamento della documentazione di setup.
-- Setup leggermente più esplicito per nuovi sviluppatori.
+- Mantenere il setup del template immediato.
+- Evitare lavoro di configurazione non prioritario.
+- Documentare il tradeoff come scelta consapevole e non come dimenticanza.
 
 ---
 
