@@ -16,12 +16,6 @@ Introdurre miglioramenti tecnici iniziali, rapidi e a basso rischio, utili per r
 
 ### Scope
 
-- Sistemare la gestione delle variabili d'ambiente
-- Creare un file `.env.example`
-- Aggiungere `.env` al `.gitignore`
-- Aggiornare la documentazione di setup
-- Documentare la creazione del file `.env` locale a partire da `.env.example`
-- Verificare che il progetto sia avviabile seguendo esclusivamente la documentazione
 - Aggiungere una pipeline CI base
 - Verificare lint/build/check disponibili per backend e frontend
 

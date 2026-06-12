@@ -64,34 +64,6 @@ Il calcolo di balance, income ed expenses potrà inizialmente essere derivato da
 
 ## Technical Improvements
 
-### Environment Configuration Cleanup
-
-#### Contesto
-
-Attualmente il repository include un file `.env` versionato direttamente nel repository.
-
-#### Obiettivo
-
-Allineare la gestione delle variabili d'ambiente alle pratiche standard di sviluppo.
-
-#### Intervento previsto
-
-- Aggiungere `.env` al `.gitignore`
-- Creare un file `.env.example`
-- Mantenere nel repository esclusivamente le variabili necessarie al setup del progetto
-- Verificare che il setup rimanga immediato per chi valuta l'assessment
-- Aggiornare eventuale documentazione di setup se necessario
-
-#### Benefici
-
-- Migliore gestione delle configurazioni locali
-- Evita il versionamento accidentale di configurazioni sensibili
-- Setup più chiaro per nuovi sviluppatori
-- Maggiore maintainability della codebase
-- Dimostra attenzione agli aspetti di qualità e sicurezza del progetto
-
----
-
 ### Basic CI/CD Pipeline
 
 #### Contesto
