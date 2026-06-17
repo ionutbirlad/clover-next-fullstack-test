@@ -6,7 +6,10 @@ module.exports.getCategories = (req, res, next) => next(SendData(TRANSACTION_CAT
 
 module.exports.createTransaction = async (req, { locals: { user } }, next) => {
   try {
-    const data = new Transaction(req.body);
+    const data = new Transaction({
+      ...req.body,
+      user: user.id
+    });
 
     await data.save();
 

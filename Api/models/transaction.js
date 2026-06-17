@@ -33,6 +33,12 @@ const schema = new Schema(
     date: {
       type: Date,
       required: true
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      index: true,
+      required: true
     }
   },
   {
