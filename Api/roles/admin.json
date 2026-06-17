@@ -9,5 +9,8 @@
   "companies": {
     "read": ["*"],
     "update": ["*"]
+  },
+  "transactionCategories": {
+    "read": ["*"]
   }
 }

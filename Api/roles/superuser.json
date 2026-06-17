@@ -11,5 +11,8 @@
     "read:any": ["*"],
     "update:any": ["*"],
     "delete:any": ["*"]
+  },
+  "transactionCategories": {
+    "read:any": ["*"]
   }
 }
