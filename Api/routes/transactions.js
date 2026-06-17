@@ -10,6 +10,7 @@ router.route('/categories').get(isAuth, rbac('transactionCategories', 'read'), c
 
 router
   .route('/')
+  .get(isAuth, rbac('transactions', 'read'), controller.get)
   .post(validator('createTransaction'), isAuth, rbac('transactions', 'create'), controller.createTransaction);
 
 module.exports = router;
