@@ -22,12 +22,14 @@ const schema = new Schema(
     type: {
       type: String,
       enum: TRANSACTION_TYPES,
+      lowercase: true,
       required: true
     },
     category: {
       type: String,
       enum: TRANSACTION_CATEGORY_VALUES,
       trim: true,
+      lowercase: true,
       required: true
     },
     date: {
