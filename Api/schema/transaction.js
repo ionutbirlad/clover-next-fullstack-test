@@ -18,9 +18,9 @@ module.exports = {
     $id: 'updateTransaction',
     type: 'object',
     properties: {
-      title: { type: 'string', maxLength: 128 },
+      title: { type: 'string', maxLength: 128, isNotEmpty: true },
       amount: { type: 'number', minimum: 0.01 },
-      type: { $ref: 'country', enum: TRANSACTION_TYPES },
+      type: { type: 'string', enum: TRANSACTION_TYPES },
       category: { type: 'string', enum: TRANSACTION_CATEGORY_VALUES },
       date: { type: 'string', format: 'date' }
     },

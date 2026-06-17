@@ -8,5 +8,9 @@
   },
   "transactionCategories": {
     "read": ["*"]
+  },
+  "transactions": {
+    "create": ["*"],
+    "read": ["*"]
   }
 }

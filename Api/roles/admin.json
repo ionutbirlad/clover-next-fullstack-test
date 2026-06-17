@@ -12,5 +12,10 @@
   },
   "transactionCategories": {
     "read": ["*"]
+  },
+  "transactions": {
+    "read": ["*"],
+    "create": ["*"],
+    "update": ["*"]
   }
 }
