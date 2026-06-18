@@ -1,6 +1,6 @@
 const Transaction = require('../models/transaction');
 const { TRANSACTION_CATEGORIES } = require('../constants/transactions');
-const { SendData, ServerError, NotFound } = require('../helpers/response');
+const { SendData, ServerError, NotFound, AlreadyExists } = require('../helpers/response');
 const getter = require('../helpers/getter');
 
 module.exports.getCategories = (req, res, next) => next(SendData(TRANSACTION_CATEGORIES));
@@ -49,6 +49,25 @@ module.exports.getById = async ({ params: { id } }, { locals: { user } }, next) 
 
     return next(SendData(targetTransaction.response('cp')));
   } catch (err) {
+    return next(ServerError(err));
+  }
+};
+
+module.exports.update = async ({ params: { id }, body }, { locals: { user } }, next) => {
+  try {
+    const targetTransaction = await Transaction.findOne({
+      _id: id,
+      user: user.id
+    });
+    if (targetTransaction === null) return next(NotFound());
+
+    const data = Object.assign(targetTransaction, body);
+
+    await data.save();
+
+    return next(SendData(targetTransaction.response('cp')));
+  } catch (err) {
+    if (err.code === 11000) return next(AlreadyExists());
     return next(ServerError(err));
   }
 };

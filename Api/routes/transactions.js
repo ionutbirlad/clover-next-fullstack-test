@@ -13,6 +13,14 @@ router
   .get(isAuth, rbac('transactions', 'read'), controller.get)
   .post(validator('createTransaction'), isAuth, rbac('transactions', 'create'), controller.create);
 
-router.route('/:id').get(validator({ params: 'id' }), isAuth, rbac('transactions', 'read'), controller.getById);
+router
+  .route('/:id')
+  .get(validator({ params: 'id' }), isAuth, rbac('transactions', 'read'), controller.getById)
+  .patch(
+    validator({ params: 'id', body: 'updateTransaction' }),
+    isAuth,
+    rbac('transactions', 'update'),
+    controller.update
+  );
 
 module.exports = router;
