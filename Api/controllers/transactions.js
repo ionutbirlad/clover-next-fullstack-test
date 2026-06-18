@@ -70,3 +70,19 @@ module.exports.update = async ({ params: { id }, body }, { locals: { user } }, n
     return next(ServerError(err));
   }
 };
+
+module.exports.delete = async ({ params: { id } }, { locals: { user } }, next) => {
+  try {
+    const targetTransaction = await Transaction.findOne({
+      _id: id,
+      user: user.id
+    });
+    if (targetTransaction === null) return next(NotFound());
+
+    await targetTransaction.softDelete();
+
+    return next(SendData({ message: 'Transaction deleted successfully!' }));
+  } catch (err) {
+    return next(ServerError(err));
+  }
+};
