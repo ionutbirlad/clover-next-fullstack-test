@@ -24,7 +24,7 @@ module.exports.get = async (req, res, next) => {
   }
 };
 
-module.exports.createTransaction = async (req, { locals: { user } }, next) => {
+module.exports.create = async (req, { locals: { user } }, next) => {
   try {
     const data = new Transaction({
       ...req.body,
