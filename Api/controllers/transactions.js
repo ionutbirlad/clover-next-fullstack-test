@@ -8,7 +8,9 @@ module.exports.getCategories = (req, res, next) => next(SendData(TRANSACTION_CAT
 module.exports.get = async (req, res, next) => {
   try {
     const { filter } = req.query;
-    const query = {};
+    const query = {
+      user: res.locals.user.id
+    };
 
     if (filter) {
       query.name = new RegExp(filter, 'i');
