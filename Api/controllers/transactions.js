@@ -13,7 +13,7 @@ module.exports.get = async (req, res, next) => {
     };
 
     if (filter) {
-      query.name = new RegExp(filter, 'i');
+      query.title = new RegExp(filter, 'i');
     }
 
     const data = await getter(Transaction, query, req, res);
