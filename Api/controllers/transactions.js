@@ -1,6 +1,6 @@
 const Transaction = require('../models/transaction');
 const { TRANSACTION_CATEGORIES } = require('../constants/transactions');
-const { SendData, ServerError } = require('../helpers/response');
+const { SendData, ServerError, NotFound } = require('../helpers/response');
 const getter = require('../helpers/getter');
 
 module.exports.getCategories = (req, res, next) => next(SendData(TRANSACTION_CATEGORIES));
@@ -34,6 +34,20 @@ module.exports.create = async (req, { locals: { user } }, next) => {
     await data.save();
 
     return next(SendData(data.response('cp')));
+  } catch (err) {
+    return next(ServerError(err));
+  }
+};
+
+module.exports.getById = async ({ params: { id } }, { locals: { user } }, next) => {
+  try {
+    const targetTransaction = await Transaction.findOne({
+      _id: id,
+      user: user.id
+    });
+    if (targetTransaction === null) return next(NotFound());
+
+    return next(SendData(targetTransaction.response('cp')));
   } catch (err) {
     return next(ServerError(err));
   }

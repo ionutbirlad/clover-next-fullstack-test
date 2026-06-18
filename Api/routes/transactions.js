@@ -6,11 +6,13 @@ const { validator } = require('../middlewares/validator');
 
 const router = express.Router();
 
+router.route('/categories').get(isAuth, rbac('transactionCategories', 'read'), controller.getCategories);
+
 router
   .route('/')
   .get(isAuth, rbac('transactions', 'read'), controller.get)
   .post(validator('createTransaction'), isAuth, rbac('transactions', 'create'), controller.create);
 
-router.route('/categories').get(isAuth, rbac('transactionCategories', 'read'), controller.getCategories);
+router.route('/:id').get(validator({ params: 'id' }), isAuth, rbac('transactions', 'read'), controller.getById);
 
 module.exports = router;

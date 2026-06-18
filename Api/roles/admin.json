@@ -14,8 +14,9 @@
     "read": ["*"]
   },
   "transactions": {
-    "read": ["*"],
     "create": ["*"],
-    "update": ["*"]
+    "read": ["*"],
+    "update": ["*"],
+    "delete": ["*"]
   }
 }
