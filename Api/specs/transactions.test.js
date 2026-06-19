@@ -214,6 +214,23 @@ describe('Transactions', () => {
         data: '/date'
       });
     });
+
+    test('Additional field added to body', async () => {
+      const res = await agent
+        .post('/transactions')
+        .set('Cookie', `accessToken=${token2}`)
+        .send({
+          ...transactionMock3,
+          user: user1.id
+        })
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 202,
+        message: 'Additional parameters are not permitted',
+        data: '/user'
+      });
+    });
   });
 
   // describe('GET /transactions', () => {
