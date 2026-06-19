@@ -13,24 +13,24 @@ jest.mock('../helpers/secrets.js');
 // Mocks Transactions
 const transactionMock1 = {
   title: 'Transaction1',
-  amount: '120',
+  amount: 120,
   type: 'expense',
   category: 'bills',
-  date: '2026-01-12T00:00:00.000Z'
+  date: '2026-01-12'
 };
 const transactionMock2 = {
   title: 'Transaction2',
-  amount: '350',
+  amount: 350,
   type: 'income',
   category: 'freelance',
-  date: '2026-04-28T00:00:00.000Z'
+  date: '2026-04-28'
 };
 const transactionMock3 = {
   title: 'Transaction3',
-  amount: '280',
+  amount: 280,
   type: 'expense',
   category: 'shopping',
-  date: '2026-09-03T00:00:00.000Z'
+  date: '2026-09-03'
 };
 
 let user1;
@@ -146,4 +146,44 @@ describe('Transaction categories', () => {
           ])
         ));
   });
+});
+
+describe('Transactions', () => {
+  // Creation
+  describe('POST /transactions', () => {
+    test('Create a transaction', () =>
+      agent
+        .post('/transactions')
+        .set('Cookie', `accessToken=${token1}`)
+        .send(transactionMock1)
+        .expect(200)
+        .then(res => {
+          expect(res.body).toMatchObject({
+            title: transactionMock1.title,
+            amount: transactionMock1.amount,
+            type: transactionMock1.type,
+            category: transactionMock1.category,
+            date: new Date(transactionMock1.date).toISOString()
+          });
+          expect(res.body._id).toMatch(/^[a-f0-9]{24}$/);
+          expect(res.body.createdAt).toEqual(expect.any(String));
+          expect(res.body.updatedAt).toEqual(expect.any(String));
+        }));
+  });
+
+  // describe('GET /transactions', () => {
+  //   // lista, filtri, ownership
+  // });
+
+  // describe('GET /transactions/:id', () => {
+  //   // dettaglio, ownership, not found
+  // });
+
+  // describe('PATCH /transactions/:id', () => {
+  //   // aggiornamento, ownership, validazione
+  // });
+
+  // describe('DELETE /transactions/:id', () => {
+  //   // soft delete, ownership
+  // });
 });
