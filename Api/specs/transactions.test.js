@@ -221,14 +221,14 @@ describe('Transactions', () => {
         .set('Cookie', `accessToken=${token2}`)
         .send({
           ...transactionMock3,
-          user: user1.id
+          unexpectedField: 'unexpectedValue'
         })
         .expect(400);
 
       expect(res.body).toStrictEqual({
         error: 202,
         message: 'Additional parameters are not permitted',
-        data: '/user'
+        data: '/unexpectedField'
       });
     });
   });
