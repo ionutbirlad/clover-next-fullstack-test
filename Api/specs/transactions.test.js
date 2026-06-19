@@ -198,6 +198,22 @@ describe('Transactions', () => {
         data: `/${field}`
       });
     });
+
+    test('Invalid date type', async () => {
+      const res = await agent
+        .post('/transactions')
+        .set('Cookie', `accessToken=${token1}`)
+        .send({
+          ...transactionMock1,
+          date: null
+        })
+        .expect(400);
+
+      expect(res.body).toMatchObject({
+        message: 'Validation error',
+        data: '/date'
+      });
+    });
   });
 
   // describe('GET /transactions', () => {
