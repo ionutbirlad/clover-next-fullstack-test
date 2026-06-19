@@ -99,76 +99,71 @@ afterAll(async () => await db.close());
 
 describe('Transaction categories', () => {
   describe('GET /transactions/categories', () => {
-    test('Non authenticated user', () =>
-      agent
-        .get('/transactions/categories')
-        .expect(401)
-        .then(res =>
-          expect(res.body).toStrictEqual({
-            error: 401,
-            message: 'Unauthorized',
-            data: {}
-          })
-        ));
+    test('Non authenticated user', async () => {
+      const res = await agent.get('/transactions/categories').expect(401);
 
-    test('Authenticated user', () =>
-      agent
-        .get('/transactions/categories')
-        .set('Cookie', `accessToken=${token1}`)
-        .expect(200)
-        .then(res =>
-          expect(res.body).toStrictEqual([
-            {
-              value: 'salary',
-              label: 'Salary',
-              type: 'income'
-            },
-            {
-              value: 'freelance',
-              label: 'Freelance',
-              type: 'income'
-            },
-            {
-              value: 'food',
-              label: 'Food',
-              type: 'expense'
-            },
-            {
-              value: 'bills',
-              label: 'Bills',
-              type: 'expense'
-            },
-            {
-              value: 'shopping',
-              label: 'Shopping',
-              type: 'expense'
-            }
-          ])
-        ));
+      expect(res.body).toStrictEqual({
+        error: 401,
+        message: 'Unauthorized',
+        data: {}
+      });
+    });
+
+    test('Authenticated user', async () => {
+      const res = await agent.get('/transactions/categories').set('Cookie', `accessToken=${token1}`).expect(200);
+
+      expect(res.body).toStrictEqual([
+        {
+          value: 'salary',
+          label: 'Salary',
+          type: 'income'
+        },
+        {
+          value: 'freelance',
+          label: 'Freelance',
+          type: 'income'
+        },
+        {
+          value: 'food',
+          label: 'Food',
+          type: 'expense'
+        },
+        {
+          value: 'bills',
+          label: 'Bills',
+          type: 'expense'
+        },
+        {
+          value: 'shopping',
+          label: 'Shopping',
+          type: 'expense'
+        }
+      ]);
+    });
   });
 });
 
 describe('Transactions', () => {
   // Creation
   describe('POST /transactions', () => {
-    test('Create a transaction', () =>
-      agent
+    test('Create a transaction', async () => {
+      const res = await agent
         .post('/transactions')
         .set('Cookie', `accessToken=${token1}`)
         .send(transactionMock1)
-        .expect(200)
-        .then(res => {
-          expect(res.body).toMatchObject({
-            title: transactionMock1.title,
-            amount: transactionMock1.amount,
-            type: transactionMock1.type,
-            category: transactionMock1.category,
-            date: new Date(transactionMock1.date).toISOString()
-          });
-          expect(res.body._id).toMatch(/^[a-f0-9]{24}$/);
-          expect(res.body.createdAt).toEqual(expect.any(String));
-          expect(res.body.updatedAt).toEqual(expect.any(String));
-        }));
+        .expect(200);
+
+      expect(res.body).toMatchObject({
+        title: transactionMock1.title,
+        amount: transactionMock1.amount,
+        type: transactionMock1.type,
+        category: transactionMock1.category,
+        date: new Date(transactionMock1.date).toISOString()
+      });
+      expect(res.body._id).toMatch(/^[a-f0-9]{24}$/);
+      expect(res.body.createdAt).toEqual(expect.any(String));
+      expect(res.body.updatedAt).toEqual(expect.any(String));
+    });
 
     test('Automatically assign the authenticated user', async () => {
       const res = await agent
