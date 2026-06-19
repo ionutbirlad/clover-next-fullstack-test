@@ -181,6 +181,10 @@ describe('Transactions', () => {
 
       expect(savedTransaction.user.toString()).toBe(user2.id);
     });
+
+    test('Non authenticated user cannot create transactions', async () => {
+      await agent.post('/transactions').send(transactionMock2).expect(401);
+    });
   });
 
   // describe('GET /transactions', () => {
