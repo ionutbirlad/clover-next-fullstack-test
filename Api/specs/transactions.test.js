@@ -185,6 +185,19 @@ describe('Transactions', () => {
     test('Non authenticated user cannot create transactions', async () => {
       await agent.post('/transactions').send(transactionMock2).expect(401);
     });
+
+    test.each(['title', 'amount', 'type', 'category', 'date'])('Missing required field: %s', async field => {
+      const payload = { ...transactionMock1 };
+      delete payload[field];
+
+      const res = await agent.post('/transactions').set('Cookie', `accessToken=${token1}`).send(payload).expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 201,
+        message: 'Missing required parameters',
+        data: `/${field}`
+      });
+    });
   });
 
   // describe('GET /transactions', () => {
