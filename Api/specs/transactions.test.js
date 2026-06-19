@@ -169,6 +169,18 @@ describe('Transactions', () => {
           expect(res.body.createdAt).toEqual(expect.any(String));
           expect(res.body.updatedAt).toEqual(expect.any(String));
         }));
+
+    test('Automatically assign the authenticated user', async () => {
+      const res = await agent
+        .post('/transactions')
+        .set('Cookie', `accessToken=${token2}`)
+        .send(transactionMock2)
+        .expect(200);
+
+      const savedTransaction = await Transaction.findById(res.body._id);
+
+      expect(savedTransaction.user.toString()).toBe(user2.id);
+    });
   });
 
   // describe('GET /transactions', () => {
