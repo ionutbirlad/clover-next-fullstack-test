@@ -296,6 +296,21 @@ describe('Transactions', () => {
   // List
   describe('GET /transactions', () => {
     beforeEach(createTransactionFixtures);
+
+    test('Return only transactions that belong to the logged user', async () => {
+      const res = await agent.get('/transactions').set('Cookie', `accessToken=${token2}`).expect(200);
+
+      expect(res.body).toHaveLength(1);
+      expect(res.body[0]._id).toBe(transaction2.id);
+
+      expect(res.body[0]).toMatchObject({
+        title: transactionMock2.title,
+        amount: transactionMock2.amount,
+        type: transactionMock2.type,
+        category: transactionMock2.category,
+        date: new Date(transactionMock2.date).toISOString()
+      });
+    });
   });
 
   // describe('GET /transactions/:id', () => {
