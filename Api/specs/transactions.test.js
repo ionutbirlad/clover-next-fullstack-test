@@ -226,6 +226,23 @@ describe('Transactions', () => {
         data: '/unexpectedField'
       });
     });
+
+    test('Create transaction with amount < 0', async () => {
+      const res = await agent
+        .post('/transactions')
+        .set('Cookie', `accessToken=${token1}`)
+        .send({
+          ...transactionMock1,
+          amount: -150
+        })
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/amount'
+      });
+    });
   });
 
   // describe('GET /transactions', () => {
