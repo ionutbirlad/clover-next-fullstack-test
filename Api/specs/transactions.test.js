@@ -260,6 +260,23 @@ describe('Transactions', () => {
         data: '/type'
       });
     });
+
+    test('Create transaction with unexpected category', async () => {
+      const res = await agent
+        .post('/transactions')
+        .set('Cookie', `accessToken=${token2}`)
+        .send({
+          ...transactionMock3,
+          category: 'unexpectedCategory'
+        })
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/category'
+      });
+    });
   });
 
   // describe('GET /transactions', () => {
