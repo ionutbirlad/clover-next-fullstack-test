@@ -41,6 +41,24 @@ let token2;
 let transaction1;
 let transaction2;
 
+// Helpers
+const createTransactionFixtures = async () => {
+  transaction1 = await new Transaction({
+    ...transactionMock1,
+    user: user1.id
+  }).save();
+
+  transaction2 = await new Transaction({
+    ...transactionMock2,
+    user: user2.id
+  }).save();
+
+  await new Transaction({
+    ...transactionMock3,
+    user: user1.id
+  }).save();
+};
+
 beforeAll(async () => await db.connect());
 beforeEach(async () => {
   await db.clear();
@@ -71,28 +89,7 @@ beforeEach(async () => {
     token2 = genereteAuthToken(user2).token;
   };
 
-  // Transaction creation
-  const Transaction1Creation = async () => {
-    transaction1 = await new Transaction({
-      ...transactionMock1,
-      user: user1.id
-    }).save();
-  };
-  const Transaction2Creation = async () => {
-    transaction2 = await new Transaction({
-      ...transactionMock2,
-      user: user2.id
-    }).save();
-  };
-  const Transaction3Creation = async () => {
-    await new Transaction({
-      ...transactionMock3,
-      user: user1.id
-    }).save();
-  };
-
-  await Promise.all([User1Creation(), User2Creation()]);
-  return Promise.all([Transaction1Creation(), Transaction2Creation(), Transaction3Creation()]);
+  return Promise.all([User1Creation(), User2Creation()]);
 });
 afterEach(async () => await jest.clearAllMocks());
 afterAll(async () => await db.close());
@@ -296,9 +293,10 @@ describe('Transactions', () => {
     });
   });
 
-  // describe('GET /transactions', () => {
-  //   // lista, filtri, ownership
-  // });
+  // List
+  describe('GET /transactions', () => {
+    beforeEach(createTransactionFixtures);
+  });
 
   // describe('GET /transactions/:id', () => {
   //   // dettaglio, ownership, not found
