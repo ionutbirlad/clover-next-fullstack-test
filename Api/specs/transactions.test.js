@@ -277,6 +277,23 @@ describe('Transactions', () => {
         data: '/category'
       });
     });
+
+    test('Create transaction with empty title', async () => {
+      const res = await agent
+        .post('/transactions')
+        .set('Cookie', `accessToken=${token1}`)
+        .send({
+          ...transactionMock1,
+          title: ''
+        })
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/title'
+      });
+    });
   });
 
   // describe('GET /transactions', () => {
