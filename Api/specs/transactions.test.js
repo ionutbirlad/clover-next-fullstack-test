@@ -243,6 +243,23 @@ describe('Transactions', () => {
         data: '/amount'
       });
     });
+
+    test('Create transaction with unexpected type', async () => {
+      const res = await agent
+        .post('/transactions')
+        .set('Cookie', `accessToken=${token2}`)
+        .send({
+          ...transactionMock2,
+          type: 'unexpectedType'
+        })
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/type'
+      });
+    });
   });
 
   // describe('GET /transactions', () => {
