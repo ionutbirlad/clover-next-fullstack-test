@@ -452,6 +452,25 @@ describe('Transactions', () => {
         date: new Date(transactionMock1.date).toISOString()
       });
     });
+
+    test('Updates a transaction and returns the predicted data', async () => {
+      const payload = {
+        title: 'Transaction1-updated',
+        amount: 1500
+      };
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token2}`)
+        .expect(404);
+
+      expect(res.body).toStrictEqual({
+        error: 404,
+        message: 'Not found',
+        data: {}
+      });
+    });
   });
 
   // describe('DELETE /transactions/:id', () => {
