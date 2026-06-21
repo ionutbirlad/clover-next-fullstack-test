@@ -663,5 +663,26 @@ describe('Transactions', () => {
 
       expect(normallyRetrievedTransaction).toBeNull();
     });
+
+    test('Soft delete is not permitted on other users transactions', async () => {
+      const deletedTransactionId = transaction1.id;
+
+      const res = await agent
+        .delete(`/transactions/${deletedTransactionId}`)
+        .set('Cookie', `accessToken=${token2}`)
+        .expect(404);
+
+      expect(res.body).toStrictEqual({
+        error: 404,
+        message: 'Not found',
+        data: {}
+      });
+
+      const deletedTransaction = await Transaction.findOne({
+        _id: deletedTransactionId
+      });
+
+      expect(deletedTransaction).not.toBeNull();
+    });
   });
 });
