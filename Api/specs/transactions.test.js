@@ -509,6 +509,21 @@ describe('Transactions', () => {
         data: '/id'
       });
     });
+
+    test('Non authenticated users cannot update transactions', async () => {
+      const payload = {
+        title: 'Transaction1-updated',
+        amount: 1500
+      };
+
+      const res = await agent.patch(`/transactions/${transaction1.id}`).send(payload).expect(401);
+
+      expect(res.body).toStrictEqual({
+        error: 401,
+        message: 'Unauthorized',
+        data: {}
+      });
+    });
   });
 
   // describe('DELETE /transactions/:id', () => {
