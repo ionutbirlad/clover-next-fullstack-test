@@ -491,7 +491,7 @@ describe('Transactions', () => {
       });
     });
 
-    test('Returns "not found" if transaction does not exist', async () => {
+    test('Returns validation error if ID has the wrong shape', async () => {
       const payload = {
         title: 'Transaction1-updated',
         amount: 1500
