@@ -453,7 +453,7 @@ describe('Transactions', () => {
       });
     });
 
-    test('Updates a transaction and returns the predicted data', async () => {
+    test('Returns "not found" if transaction belongs to anonther user', async () => {
       const payload = {
         title: 'Transaction1-updated',
         amount: 1500
