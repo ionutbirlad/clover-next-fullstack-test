@@ -379,6 +379,29 @@ describe('Transactions', () => {
         data: {}
       });
     });
+
+    test('Returns "not found" if transaction does not exist', async () => {
+      const res = await agent
+        .get('/transactions/6a37ae9cbe38687987804e22')
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(404);
+
+      expect(res.body).toStrictEqual({
+        error: 404,
+        message: 'Not found',
+        data: {}
+      });
+    });
+
+    test('Returns validation error if ID has not the predicted shape', async () => {
+      const res = await agent.get('/transactions/wrongIdShape').set('Cookie', `accessToken=${token1}`).expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/id'
+      });
+    });
   });
 
   // describe('PATCH /transactions/:id', () => {
