@@ -96,7 +96,7 @@ afterAll(async () => await db.close());
 
 describe('Transaction categories', () => {
   describe('GET /transactions/categories', () => {
-    test('Non authenticated user', async () => {
+    test('Unauthenticated user', async () => {
       const res = await agent.get('/transactions/categories').expect(401);
 
       expect(res.body).toStrictEqual({
@@ -174,7 +174,7 @@ describe('Transactions', () => {
       expect(savedTransaction.user.toString()).toBe(user2.id);
     });
 
-    test('Non authenticated user cannot create transactions', async () => {
+    test('Unauthenticated user cannot create transactions', async () => {
       await agent.post('/transactions').send(transactionMock2).expect(401);
     });
 
@@ -201,7 +201,8 @@ describe('Transactions', () => {
         })
         .expect(400);
 
-      expect(res.body).toMatchObject({
+      expect(res.body).toStrictEqual({
+        error: 200,
         message: 'Validation error',
         data: '/date'
       });
@@ -517,7 +518,7 @@ describe('Transactions', () => {
       });
     });
 
-    test('Non authenticated users cannot update transactions', async () => {
+    test('Unauthenticated users cannot update transactions', async () => {
       const payload = {
         title: 'Transaction1-updated',
         amount: 1500
@@ -550,7 +551,7 @@ describe('Transactions', () => {
       });
     });
 
-    test('Blocks requests with amount > 0', async () => {
+    test('Blocks amounts below minimum', async () => {
       const payload = {
         amount: -100
       };
@@ -780,7 +781,7 @@ describe('Transactions', () => {
       });
     });
 
-    test('Soft deletes is blocked if not authenticated', async () => {
+    test('Soft deletes are blocked if not authenticated', async () => {
       const deletedTransactionId = transaction1.id;
 
       const res = await agent.delete(`/transactions/${deletedTransactionId}`).expect(401);
