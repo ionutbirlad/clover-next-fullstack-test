@@ -24,6 +24,7 @@ module.exports = {
       category: { type: 'string', enum: TRANSACTION_CATEGORY_VALUES },
       date: { type: 'string', format: 'date' }
     },
-    additionalProperties: false
+    additionalProperties: false,
+    minProperties: 1
   }
 };

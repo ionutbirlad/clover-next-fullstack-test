@@ -667,6 +667,22 @@ describe('Transactions', () => {
         deletedAt: expect.any(Date)
       });
     });
+
+    test('Cannot update transaction with empty payload', async () => {
+      const payload = {};
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: ''
+      });
+    });
   });
 
   // Delete
