@@ -471,6 +471,44 @@ describe('Transactions', () => {
         data: {}
       });
     });
+
+    test('Returns "not found" if transaction does not exist', async () => {
+      const payload = {
+        title: 'Transaction1-updated',
+        amount: 1500
+      };
+
+      const res = await agent
+        .patch('/transactions/6a32ce63b96a46464c039053')
+        .send(payload)
+        .set('Cookie', `accessToken=${token2}`)
+        .expect(404);
+
+      expect(res.body).toStrictEqual({
+        error: 404,
+        message: 'Not found',
+        data: {}
+      });
+    });
+
+    test('Returns "not found" if transaction does not exist', async () => {
+      const payload = {
+        title: 'Transaction1-updated',
+        amount: 1500
+      };
+
+      const res = await agent
+        .patch('/transactions/wrongIdShape')
+        .send(payload)
+        .set('Cookie', `accessToken=${token2}`)
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/id'
+      });
+    });
   });
 
   // describe('DELETE /transactions/:id', () => {
