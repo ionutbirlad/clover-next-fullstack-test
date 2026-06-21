@@ -349,9 +349,37 @@ describe('Transactions', () => {
     });
   });
 
-  // describe('GET /transactions/:id', () => {
-  //   // dettaglio, ownership, not found
-  // });
+  // Detail
+  describe('GET /transactions/:id', () => {
+    beforeEach(createTransactionFixtures);
+
+    test('Returns the requested transaction', async () => {
+      const res = await agent
+        .get(`/transactions/${transaction1.id}`)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(200);
+
+      expect(res.body._id).toBe(transaction1.id);
+
+      expect(res.body).toMatchObject({
+        ...transactionMock1,
+        date: new Date(transactionMock1.date).toISOString()
+      });
+    });
+
+    test('Not allowed to request transaction that belongs to another user', async () => {
+      const res = await agent
+        .get(`/transactions/${transaction1.id}`)
+        .set('Cookie', `accessToken=${token2}`)
+        .expect(404);
+
+      expect(res.body).toStrictEqual({
+        error: 404,
+        message: 'Not found',
+        data: {}
+      });
+    });
+  });
 
   // describe('PATCH /transactions/:id', () => {
   //   // aggiornamento, ownership, validazione
