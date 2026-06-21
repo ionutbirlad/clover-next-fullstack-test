@@ -230,7 +230,7 @@ describe('Transactions', () => {
         .set('Cookie', `accessToken=${token1}`)
         .send({
           ...transactionMock1,
-          amount: -150
+          amount: 0
         })
         .expect(400);
 
@@ -323,10 +323,7 @@ describe('Transactions', () => {
     });
 
     test('Return only transactions filtered per title', async () => {
-      const res = await agent
-        .get('/transactions?title=Transaction1')
-        .set('Cookie', `accessToken=${token1}`)
-        .expect(200);
+      const res = await agent.get('/transactions?title=action1').set('Cookie', `accessToken=${token1}`).expect(200);
 
       expect(res.body).toHaveLength(1);
       expect(res.body[0]._id).toBe(transaction1.id);
@@ -469,6 +466,16 @@ describe('Transactions', () => {
         error: 404,
         message: 'Not found',
         data: {}
+      });
+
+      const deletionAttemptedTransaction = await Transaction.findOne({
+        _id: transaction1.id,
+        user: user1.id
+      });
+
+      expect(deletionAttemptedTransaction.toObject()).toMatchObject({
+        ...transactionMock1,
+        date: new Date(transactionMock1.date)
       });
     });
 
