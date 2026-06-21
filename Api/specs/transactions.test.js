@@ -634,7 +634,34 @@ describe('Transactions', () => {
     });
   });
 
-  // describe('DELETE /transactions/:id', () => {
-  //   // soft delete, ownership
-  // });
+  // Delete
+  describe('DELETE /transactions/:id', () => {
+    beforeEach(createTransactionFixtures);
+
+    test('Soft deletes the requested transaction', async () => {
+      const deletedTransactionId = transaction1.id;
+
+      const res = await agent
+        .delete(`/transactions/${deletedTransactionId}`)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(200);
+
+      expect(res.body).toStrictEqual({
+        message: 'Transaction deleted successfully!'
+      });
+
+      const deletedTransaction = await Transaction.findOne({
+        _id: deletedTransactionId,
+        deleted: true
+      });
+
+      expect(deletedTransaction).not.toBeNull();
+      expect(deletedTransaction.deleted).toBe(true);
+      expect(deletedTransaction.deletedAt).toEqual(expect.any(Date));
+
+      const normallyRetrievedTransaction = await Transaction.findById(deletedTransactionId);
+
+      expect(normallyRetrievedTransaction).toBeNull();
+    });
+  });
 });
