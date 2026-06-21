@@ -311,6 +311,16 @@ describe('Transactions', () => {
         date: new Date(transactionMock2.date).toISOString()
       });
     });
+
+    test('Not allowed to fetch transaction if not authenticated', async () => {
+      const res = await agent.get('/transactions').expect(401);
+
+      expect(res.body).toStrictEqual({
+        error: 401,
+        message: 'Unauthorized',
+        data: {}
+      });
+    });
   });
 
   // describe('GET /transactions/:id', () => {
