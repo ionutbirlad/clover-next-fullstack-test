@@ -417,6 +417,16 @@ describe('Transactions', () => {
         data: {}
       });
     });
+
+    test('Returns "not allowed" if user is not authenticated', async () => {
+      const res = await agent.get(`/transactions/${transaction1.id}`).expect(401);
+
+      expect(res.body).toStrictEqual({
+        error: 401,
+        message: 'Unauthorized',
+        data: {}
+      });
+    });
   });
 
   // describe('PATCH /transactions/:id', () => {
