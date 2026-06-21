@@ -524,6 +524,24 @@ describe('Transactions', () => {
         data: {}
       });
     });
+
+    test('Blocks requests with additional fields', async () => {
+      const payload = {
+        additionalFieldProperty: 'additionalFieldValue'
+      };
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 202,
+        message: 'Additional parameters are not permitted',
+        data: '/additionalFieldProperty'
+      });
+    });
   });
 
   // describe('DELETE /transactions/:id', () => {
