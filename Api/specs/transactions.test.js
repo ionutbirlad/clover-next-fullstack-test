@@ -736,7 +736,7 @@ describe('Transactions', () => {
 
     test('Deleting already deleted item return "not found"', async () => {
       const deletedTransactionId = transaction1.id;
-      transaction1.softDelete();
+      await transaction1.softDelete();
 
       const res = await agent
         .delete(`/transactions/${deletedTransactionId}`)
