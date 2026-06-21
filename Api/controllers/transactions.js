@@ -7,13 +7,13 @@ module.exports.getCategories = (req, res, next) => next(SendData(TRANSACTION_CAT
 
 module.exports.get = async (req, res, next) => {
   try {
-    const { filter } = req.query;
+    const { title } = req.query;
     const query = {
       user: res.locals.user.id
     };
 
-    if (filter) {
-      query.title = new RegExp(filter, 'i');
+    if (title) {
+      query.title = new RegExp(title, 'i');
     }
 
     const data = await getter(Transaction, query, req, res);

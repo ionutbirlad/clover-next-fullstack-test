@@ -321,6 +321,24 @@ describe('Transactions', () => {
         data: {}
       });
     });
+
+    test('Return only transactions filtered per title', async () => {
+      const res = await agent
+        .get('/transactions?title=Transaction1')
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(200);
+
+      expect(res.body).toHaveLength(1);
+      expect(res.body[0]._id).toBe(transaction1.id);
+
+      expect(res.body[0]).toMatchObject({
+        title: transactionMock1.title,
+        amount: transactionMock1.amount,
+        type: transactionMock1.type,
+        category: transactionMock1.category,
+        date: new Date(transactionMock1.date).toISOString()
+      });
+    });
   });
 
   // describe('GET /transactions/:id', () => {
