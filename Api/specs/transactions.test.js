@@ -542,6 +542,96 @@ describe('Transactions', () => {
         data: '/additionalFieldProperty'
       });
     });
+
+    test('Blocks requests with amount > 0', async () => {
+      const payload = {
+        amount: -100
+      };
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/amount'
+      });
+    });
+
+    test('Blocks requests with not allowed transaction type', async () => {
+      const payload = {
+        type: 'notAllowedType'
+      };
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/type'
+      });
+    });
+
+    test('Blocks requests with not allowed transaction category', async () => {
+      const payload = {
+        category: 'notAllowedCategory'
+      };
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/category'
+      });
+    });
+
+    test('Blocks requests with wrong date format', async () => {
+      const payload = {
+        date: '2026-06-17T00:00:00.000Z'
+      };
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/date'
+      });
+    });
+
+    test('Blocks requests with empty title', async () => {
+      const payload = {
+        title: ''
+      };
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/title'
+      });
+    });
   });
 
   // describe('DELETE /transactions/:id', () => {
