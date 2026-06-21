@@ -339,6 +339,14 @@ describe('Transactions', () => {
         date: new Date(transactionMock1.date).toISOString()
       });
     });
+
+    test('Return empty array if user has no transactions', async () => {
+      await transaction2.softDelete();
+
+      const res = await agent.get('/transactions').set('Cookie', `accessToken=${token2}`).expect(200);
+
+      expect(res.body).toHaveLength(0);
+    });
   });
 
   // describe('GET /transactions/:id', () => {
