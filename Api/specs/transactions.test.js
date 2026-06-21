@@ -340,7 +340,7 @@ describe('Transactions', () => {
       });
     });
 
-    test('Return empty array if user has no transactions', async () => {
+    test('Returns an empty array when all user transactions are soft-deleted', async () => {
       await transaction2.softDelete();
 
       const res = await agent.get('/transactions').set('Cookie', `accessToken=${token2}`).expect(200);
