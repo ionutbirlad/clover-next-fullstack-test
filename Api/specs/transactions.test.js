@@ -684,5 +684,70 @@ describe('Transactions', () => {
 
       expect(deletedTransaction).not.toBeNull();
     });
+
+    test('Trying to delete non existent entity returns "no found"', async () => {
+      const transactionToDeleteId = '6a98ae9cbe38685677804e22';
+
+      const res = await agent
+        .delete(`/transactions/${transactionToDeleteId}`)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(404);
+
+      expect(res.body).toStrictEqual({
+        error: 404,
+        message: 'Not found',
+        data: {}
+      });
+
+      const deletedTransaction = await Transaction.findOne({
+        _id: transactionToDeleteId,
+        deleted: true
+      });
+
+      expect(deletedTransaction).toBeNull();
+    });
+
+    test('Trying to delete entity with wrong ID format returns "no found"', async () => {
+      const transactionToDeleteId = 'wrongIdFormat';
+
+      const res = await agent
+        .delete(`/transactions/${transactionToDeleteId}`)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/id'
+      });
+    });
+
+    test('Soft deletes is blocked if not authenticated', async () => {
+      const deletedTransactionId = transaction1.id;
+
+      const res = await agent.delete(`/transactions/${deletedTransactionId}`).expect(401);
+
+      expect(res.body).toStrictEqual({
+        error: 401,
+        message: 'Unauthorized',
+        data: {}
+      });
+    });
+
+    test('Deleting already deleted item return "not found"', async () => {
+      const deletedTransactionId = transaction1.id;
+      transaction1.softDelete();
+
+      const res = await agent
+        .delete(`/transactions/${deletedTransactionId}`)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(404);
+
+      expect(res.body).toStrictEqual({
+        error: 404,
+        message: 'Not found',
+        data: {}
+      });
+    });
   });
 });
