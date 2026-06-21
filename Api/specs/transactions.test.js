@@ -632,6 +632,41 @@ describe('Transactions', () => {
         data: '/title'
       });
     });
+
+    test('Cannot update a soft deleted transaction', async () => {
+      await transaction1.softDelete();
+
+      const payload = {
+        title: 'Transaction1-soft-deleted',
+        amount: 1500
+      };
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(404);
+
+      expect(res.body).toStrictEqual({
+        error: 404,
+        message: 'Not found',
+        data: {}
+      });
+
+      const deletedTransaction = await Transaction.findOne({
+        _id: transaction1.id,
+        deleted: true
+      });
+
+      expect(deletedTransaction).not.toBeNull();
+
+      expect(deletedTransaction.toObject()).toMatchObject({
+        ...transactionMock1,
+        date: new Date(transactionMock1.date),
+        deleted: true,
+        deletedAt: expect.any(Date)
+      });
+    });
   });
 
   // Delete
