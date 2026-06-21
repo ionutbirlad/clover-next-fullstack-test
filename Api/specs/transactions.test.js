@@ -402,6 +402,21 @@ describe('Transactions', () => {
         data: '/id'
       });
     });
+
+    test('Returns "not found" if transaction was soft deleted', async () => {
+      await transaction1.softDelete();
+
+      const res = await agent
+        .get(`/transactions/${transaction1.id}`)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(404);
+
+      expect(res.body).toStrictEqual({
+        error: 404,
+        message: 'Not found',
+        data: {}
+      });
+    });
   });
 
   // describe('PATCH /transactions/:id', () => {
