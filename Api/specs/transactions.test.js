@@ -727,6 +727,61 @@ describe('Transactions', () => {
         data: ''
       });
     });
+
+    test('Should return validation error if category is not compatible with existent type', async () => {
+      const payload = {
+        category: 'freelance'
+      };
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/category'
+      });
+    });
+
+    test('Should return validation error if type is not compatible with existent category', async () => {
+      const payload = {
+        type: 'income'
+      };
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/category'
+      });
+    });
+
+    test('Should return validation error if type and category are not compatible', async () => {
+      const payload = {
+        type: 'income',
+        category: 'shopping'
+      };
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/category'
+      });
+    });
   });
 
   // Delete
