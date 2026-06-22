@@ -1,7 +1,8 @@
 const Transaction = require('../models/transaction');
 const { TRANSACTION_CATEGORIES } = require('../constants/transactions');
-const { SendData, ServerError, NotFound } = require('../helpers/response');
+const { SendData, ServerError, NotFound, ValidationError } = require('../helpers/response');
 const getter = require('../helpers/getter');
+const { isCategoryValidForType } = require('../helpers/transactions');
 
 module.exports.getCategories = (req, res, next) => next(SendData(TRANSACTION_CATEGORIES));
 
@@ -26,6 +27,12 @@ module.exports.get = async (req, res, next) => {
 
 module.exports.create = async (req, { locals: { user } }, next) => {
   try {
+    // Check for type and category combination validity
+    const { category, type } = req.body;
+    if (!isCategoryValidForType(category, type)) {
+      return next(ValidationError('/category'));
+    }
+
     const data = new Transaction({
       ...req.body,
       user: user.id
@@ -60,6 +67,14 @@ module.exports.update = async ({ params: { id }, body }, { locals: { user } }, n
       user: user.id
     });
     if (targetTransaction === null) return next(NotFound());
+
+    // Check for type and category combination validity
+    const { category, type } = body;
+    const nextCategory = category ?? targetTransaction.category;
+    const nextType = type ?? targetTransaction.type;
+    if (!isCategoryValidForType(nextCategory, nextType)) {
+      return next(ValidationError('/category'));
+    }
 
     const data = Object.assign(targetTransaction, body);
 
