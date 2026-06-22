@@ -1,3 +1,4 @@
+const escapeRegExp = require('lodash/escapeRegExp');
 const Transaction = require('../models/transaction');
 const { TRANSACTION_CATEGORIES } = require('../constants/transactions');
 const { SendData, ServerError, NotFound, ValidationError } = require('../helpers/response');
@@ -14,7 +15,7 @@ module.exports.get = async (req, res, next) => {
     };
 
     if (title) {
-      query.title = new RegExp(title, 'i');
+      query.title = new RegExp(escapeRegExp(title), 'i');
     }
 
     const data = await getter(Transaction, query, req, res);
