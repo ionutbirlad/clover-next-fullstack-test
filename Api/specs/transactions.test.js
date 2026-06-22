@@ -292,6 +292,42 @@ describe('Transactions', () => {
         data: '/title'
       });
     });
+
+    test('Should return validation error if an expense is combined with a wrong category', async () => {
+      const res = await agent
+        .post('/transactions')
+        .set('Cookie', `accessToken=${token1}`)
+        .send({
+          ...transactionMock1,
+          type: 'expense',
+          category: 'salary'
+        })
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/category'
+      });
+    });
+
+    test('Should return validation error if an income is combined with a wrong category', async () => {
+      const res = await agent
+        .post('/transactions')
+        .set('Cookie', `accessToken=${token1}`)
+        .send({
+          ...transactionMock1,
+          type: 'income',
+          category: 'food'
+        })
+        .expect(400);
+
+      expect(res.body).toStrictEqual({
+        error: 200,
+        message: 'Validation error',
+        data: '/category'
+      });
+    });
   });
 
   // List
