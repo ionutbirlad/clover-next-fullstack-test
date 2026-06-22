@@ -782,6 +782,26 @@ describe('Transactions', () => {
         data: '/category'
       });
     });
+
+    test('Should pass if both type and category are compatible', async () => {
+      const payload = {
+        type: 'income',
+        category: 'salary'
+      };
+
+      const res = await agent
+        .patch(`/transactions/${transaction1.id}`)
+        .send(payload)
+        .set('Cookie', `accessToken=${token1}`)
+        .expect(200);
+
+      expect(res.body._id).toBe(transaction1.id);
+      expect(res.body).toMatchObject({
+        ...transactionMock1,
+        ...payload,
+        date: new Date(transactionMock1.date).toISOString()
+      });
+    });
   });
 
   // Delete
