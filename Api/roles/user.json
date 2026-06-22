@@ -5,5 +5,14 @@
   },
   "companies": {
     "read": ["*"]
+  },
+  "transactionCategories": {
+    "read": ["*"]
+  },
+  "transactions": {
+    "create": ["*"],
+    "read": ["*"],
+    "update": ["*"],
+    "delete": ["*"]
   }
 }

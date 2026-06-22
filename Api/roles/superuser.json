@@ -11,5 +11,14 @@
     "read:any": ["*"],
     "update:any": ["*"],
     "delete:any": ["*"]
+  },
+  "transactionCategories": {
+    "read:any": ["*"]
+  },
+  "transactions": {
+    "create": ["*"],
+    "read": ["*"],
+    "update": ["*"],
+    "delete": ["*"]
   }
 }

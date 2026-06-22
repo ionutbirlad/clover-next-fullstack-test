@@ -80,8 +80,13 @@ exports.register = async (req, res, next) => {
     const checkDeleted = await User.findOne({ email: req.body.email, deleted: true }).lean();
     if (checkDeleted) return next(DeletedAccount());
 
-    req.body.active = true;
-    const user = await new User(req.body).save();
+    const user = await new User({
+      ...req.body,
+      active: true,
+      company: {
+        roles: ['user']
+      }
+    }).save();
 
     await generateToken(res, user);
 
