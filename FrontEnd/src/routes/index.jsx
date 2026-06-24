@@ -43,8 +43,8 @@ const Index = () => {
       ),
       children: [
         { path: '/', index: true, element: <Home /> },
-        { path: '/wallet', element: <WalletPage /> },
-        { path: '/statistics', element: <StatisticsPage /> }
+        { path: 'wallet', element: <WalletPage /> },
+        { path: 'statistics', element: <StatisticsPage /> }
       ]
     },
     {
