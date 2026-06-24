@@ -73,5 +73,11 @@
   },
   "validation": {
     "required": "Required field"
+  },
+  "navigation": {
+    "pages": {
+      "statistics": "Statistics",
+      "wallet": "Wallet"
+    }
   }
 }

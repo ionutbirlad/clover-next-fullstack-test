@@ -73,5 +73,11 @@
   },
   "validation": {
     "required": "Campo obbligatorio"
+  },
+  "navigation": {
+    "pages": {
+      "statistics": "Statistiche",
+      "wallet": "Portafoglio"
+    }
   }
 }
