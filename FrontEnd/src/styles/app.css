@@ -1,1 +1,6 @@
-/* SILENCE IS GOLD */
+/* Application styles */
+
+body {
+  font-family: Inter, sans-serif;
+  font-optical-sizing: auto;
+}

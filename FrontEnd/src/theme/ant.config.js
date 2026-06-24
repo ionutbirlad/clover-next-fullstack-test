@@ -2,7 +2,7 @@ export const light = {
   token: {
     colorPrimary: '#1677ff',
     colorInfo: '#1677ff',
-    fontFamily: 'Lato'
+    fontFamily: 'Inter, sans-serif'
   }
 };
 
@@ -15,7 +15,7 @@ export const dark = {
     colorBorderSecondary: '#1e1e1e',
     colorPrimary: '#1677ff',
     colorInfo: '#1677ff',
-    fontFamily: 'Lato'
+    fontFamily: 'Inter, sans-serif'
   }
 };
 
