@@ -25,7 +25,6 @@ export const AppProvider = props => {
   const [defaultCurrency] = useState(config.defaultCurrency);
   const [itemXpage] = useState(config.itemXpage);
 
-  const [selectedMenuItem, setSelectedMenuItem] = useState(null);
   const [macroMenuSelection, setMacroMenuSelection] = useState(MacroMenu.Home);
 
   const menuItems = {
@@ -34,19 +33,22 @@ export const AppProvider = props => {
         label: <Link to="/">{t('common.home')}</Link>,
         key: 'home',
         icon: <FontAwesomeIcon icon={faHome} />,
-        authorizedRoles: ['admin', 'designer', 'manufacturer', 'owner']
+        authorizedRoles: ['admin', 'designer', 'manufacturer', 'owner'],
+        path: '/'
       },
       {
         label: <Link to="/wallet">{t('navigation.pages.wallet')}</Link>,
         key: 'walletPage',
         icon: <FontAwesomeIcon icon={faWallet} />,
-        authorizedRoles: ['admin', 'designer', 'manufacturer', 'owner']
+        authorizedRoles: ['admin', 'designer', 'manufacturer', 'owner'],
+        path: '/wallet'
       },
       {
         label: <Link to="/statistics">{t('navigation.pages.statistics')}</Link>,
         key: 'statisticsPage',
         icon: <FontAwesomeIcon icon={faChartArea} />,
-        authorizedRoles: ['admin', 'designer', 'manufacturer', 'owner']
+        authorizedRoles: ['admin', 'designer', 'manufacturer', 'owner'],
+        path: '/statistics'
       }
     ]
   };
@@ -63,12 +65,10 @@ export const AppProvider = props => {
       itemXpage,
       menuItems,
       MacroMenu,
-      setSelectedMenuItem,
-      selectedMenuItem,
       macroMenuSelection,
       setMacroMenuSelection
     }),
-    [isMobile, darkMode, defaultCurrency, itemXpage, menuItems, MacroMenu, selectedMenuItem, macroMenuSelection]
+    [isMobile, darkMode, defaultCurrency, itemXpage, menuItems, MacroMenu, macroMenuSelection]
   );
 
   return <AppContext.Provider value={exportedValue}>{props.children}</AppContext.Provider>;

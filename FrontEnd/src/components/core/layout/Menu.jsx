@@ -1,12 +1,16 @@
 import { useContext } from 'react';
 import { Menu, theme } from 'antd';
+import { useLocation } from 'react-router-dom';
 import AppContext from '../../../helpers/AppContext';
 
 const { useToken } = theme;
 
 const CpMenu = () => {
-  const { menuItems, setSelectedMenuItem, selectedMenuItem, macroMenuSelection } = useContext(AppContext);
+  const { menuItems, macroMenuSelection } = useContext(AppContext);
   const { token } = useToken();
+  const location = useLocation();
+
+  const selectedKey = menuItems[macroMenuSelection].find(item => item.path === location.pathname)?.key;
 
   return (
     <Menu
@@ -15,10 +19,10 @@ const CpMenu = () => {
       items={menuItems[macroMenuSelection].map(e => {
         const tmpObj = { ...e };
         delete tmpObj?.authorizedRoles;
+        delete tmpObj?.path;
         return tmpObj;
       })}
-      selectedKeys={selectedMenuItem}
-      onSelect={data => setSelectedMenuItem(data.key)}
+      selectedKeys={selectedKey ? [selectedKey] : []}
     />
   );
 };
