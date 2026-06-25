@@ -10,3 +10,16 @@ body {
   box-shadow: 0 12px 32px rgb(47 126 121 / 12%);
   border-color: transparent;
 }
+
+/* Components */
+input {
+  &:focus {
+    color: var(--color-primary);
+  }
+}
+
+.ant-select-selection-item {
+  &:hover {
+    color: var(--color-primary);
+  }
+}
