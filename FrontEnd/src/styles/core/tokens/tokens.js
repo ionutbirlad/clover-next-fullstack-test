@@ -1,23 +1,28 @@
+const colorsLight = {
+  // Brand / semantic colors
+  colorPrimary: '#2F7E79',
+  colorSuccess: '#25A969',
+  colorWarning: '#FFAB7B',
+  colorError: '#FF383C',
+  colorInfo: '#438883',
+
+  // Base surfaces/text
+  colorBgBase: '#ffffff',
+  colorTextBase: '#222222',
+
+  // Secondary surfaces/text
+  colorBgElevated: '#F4F6F6',
+  colorTextSecondary: '#666666',
+
+  // Other colors
+  colorBgLayout: '#ffffff',
+  colorBorder: '#DDDDDD',
+  colorTextLightSolid: '#ffffff'
+};
+
 const tokens = {
   light: {
-    // Brand / semantic colors
-    colorPrimary: '#2F7E79',
-    colorSuccess: '#25A969',
-    colorWarning: '#FFAB7B',
-    colorError: '#FF383C',
-    colorInfo: '#438883',
-
-    // Base surfaces/text
-    colorBgBase: '#ffffff',
-    colorTextBase: '#222222',
-
-    // Secondary surfaces/text
-    colorBgElevated: '#F4F6F6',
-    colorTextSecondary: '#666666',
-
-    // Other colors
-    colorBgLayout: '#ffffff',
-    colorBorder: '#DDDDDD',
+    ...colorsLight,
 
     // Typography
     fontFamily: 'Inter, sans-serif',
@@ -52,6 +57,10 @@ const tokens = {
       lineWidth: 2,
       controlOutlineWidth: 0,
       controlOutline: 'transparent'
+    },
+    Menu: {
+      itemSelectedBg: colorsLight.colorPrimary,
+      itemSelectedColor: colorsLight.colorTextLightSolid
     }
   },
   dark: {
