@@ -1,9 +1,8 @@
+import tokens from '../styles/core/tokens/tokens';
+
 export const light = {
-  token: {
-    colorPrimary: '#1677ff',
-    colorInfo: '#1677ff',
-    fontFamily: 'Inter, sans-serif'
-  }
+  token: tokens.light,
+  components: tokens.components
 };
 
 export const dark = {
