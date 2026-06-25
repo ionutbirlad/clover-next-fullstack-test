@@ -10,8 +10,3 @@ body {
   box-shadow: 0 12px 32px rgb(47 126 121 / 12%);
   border-color: transparent;
 }
-
-/* Components */
-input:not(:placeholder-shown) {
-  color: var(--color-primary);
-}
