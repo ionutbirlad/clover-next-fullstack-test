@@ -18,6 +18,18 @@ input {
   }
 }
 
+.ant-input-number-focused {
+  & .ant-input-number-input {
+    color: var(--color-primary);
+  }
+}
+
+textarea {
+  &:focus {
+    color: var(--color-primary);
+  }
+}
+
 .ant-select-selection-item {
   &:hover {
     color: var(--color-primary);

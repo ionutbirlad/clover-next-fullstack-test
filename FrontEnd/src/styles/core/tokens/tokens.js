@@ -44,6 +44,10 @@ const tokens = {
       activeShadow: 'none',
       lineWidth: 2
     },
+    InputNumber: {
+      activeShadow: 'none',
+      lineWidth: 2
+    },
     Select: {
       lineWidth: 2,
       controlOutlineWidth: 0,
