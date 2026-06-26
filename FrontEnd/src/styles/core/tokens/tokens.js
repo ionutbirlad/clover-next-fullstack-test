@@ -55,9 +55,6 @@ const tokens = {
     // Shape
     borderRadius: 8,
 
-    // Controls
-    // controlHeight: 36,
-
     // Borders / motion
     lineWidth: 1,
     motion: true
