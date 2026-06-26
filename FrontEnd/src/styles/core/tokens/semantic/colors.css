@@ -1,3 +1,7 @@
 :root {
   --color-primary: #2f7e79;
 }
+
+body.dark {
+  --color-primary: #5fb8b2;
+}

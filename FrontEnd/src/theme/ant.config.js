@@ -6,16 +6,8 @@ export const light = {
 };
 
 export const dark = {
-  token: {
-    colorBgBase: '#121212',
-    colorBgLayout: '#181818',
-    colorBgContainer: '#121212',
-    colorBorder: '#1e1e1e',
-    colorBorderSecondary: '#1e1e1e',
-    colorPrimary: '#1677ff',
-    colorInfo: '#1677ff',
-    fontFamily: 'Inter, sans-serif'
-  }
+  token: tokens.dark,
+  components: tokens.componentsDark
 };
 
 export default {};
