@@ -19,25 +19,7 @@ const colorsLight = {
   colorBorder: '#DDDDDD',
   colorTextLightSolid: '#ffffff'
 };
-
-const tokens = {
-  light: {
-    ...colorsLight,
-
-    // Typography
-    fontFamily: 'Inter, sans-serif',
-    fontSize: 14,
-
-    // Shape
-    borderRadius: 8,
-
-    // Controls
-    // controlHeight: 36,
-
-    // Borders / motion
-    lineWidth: 1,
-    motion: true
-  },
+const componentsLight = {
   components: {
     Button: {
       borderRadius: 23,
@@ -65,7 +47,28 @@ const tokens = {
       itemHoverColor: colorsLight.colorPrimary,
       itemHoverBg: colorsLight.colorBgElevated
     }
+  }
+};
+
+const tokens = {
+  light: {
+    ...colorsLight,
+
+    // Typography
+    fontFamily: 'Inter, sans-serif',
+    fontSize: 14,
+
+    // Shape
+    borderRadius: 8,
+
+    // Controls
+    // controlHeight: 36,
+
+    // Borders / motion
+    lineWidth: 1,
+    motion: true
   },
+  ...componentsLight,
   dark: {
     // Brand / semantic colors
     colorPrimary: '#2563eb',
