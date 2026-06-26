@@ -2,7 +2,7 @@ import tokens from '../styles/core/tokens/tokens';
 
 export const light = {
   token: tokens.light,
-  components: tokens.components
+  components: tokens.componentsLight
 };
 
 export const dark = {
