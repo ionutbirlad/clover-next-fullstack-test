@@ -60,7 +60,10 @@ const tokens = {
     },
     Menu: {
       itemSelectedBg: colorsLight.colorPrimary,
-      itemSelectedColor: colorsLight.colorTextLightSolid
+      itemSelectedColor: colorsLight.colorTextLightSolid,
+      itemActiveBg: colorsLight.colorPrimary,
+      itemHoverColor: colorsLight.colorPrimary,
+      itemHoverBg: colorsLight.colorBgElevated
     }
   },
   dark: {
