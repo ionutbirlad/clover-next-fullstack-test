@@ -1,94 +1,13 @@
 import { Card, Empty, Space, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faBagShopping,
-  faBriefcase,
-  faCreditCard,
-  faMoneyBillTransfer,
-  faPlay,
-  faReceipt,
-  faUtensils
-} from '@fortawesome/free-solid-svg-icons';
 
 import { classNames } from '../../../helpers/core/utils';
+import formatCurrency from '../../../helpers/core/formatCurrency';
+import formatDate from '../../../helpers/core/formatDate';
+import getTransactionCategoryIcon from './transactionCategoryUi';
 import styles from './TransactionHistory.module.css';
 
 const { Text, Title } = Typography;
-
-const categoryIcons = {
-  bills: faReceipt,
-  food: faUtensils,
-  freelance: faBriefcase,
-  salary: faBriefcase,
-  shopping: faBagShopping,
-  transfer: faMoneyBillTransfer,
-  paypal: faCreditCard,
-  youtube: faPlay
-};
-
-const demoTransactions = [
-  {
-    id: 'demo-upwork',
-    title: 'Upwork',
-    dateLabel: 'Today',
-    amount: 850,
-    type: 'income',
-    category: 'freelance'
-  },
-  {
-    id: 'demo-transfer',
-    title: 'Transfer',
-    dateLabel: 'Yesterday',
-    amount: 85,
-    type: 'expense',
-    category: 'transfer'
-  },
-  {
-    id: 'demo-paypal',
-    title: 'Paypal',
-    dateLabel: 'Jan 30, 2022',
-    amount: 1406,
-    type: 'income',
-    category: 'paypal'
-  },
-  {
-    id: 'demo-youtube',
-    title: 'Youtube',
-    dateLabel: 'Jan 16, 2022',
-    amount: 11.99,
-    type: 'expense',
-    category: 'youtube'
-  }
-];
-
-const formatCurrency = ({ value, currency, locale }) =>
-  new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency,
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 2
-  }).format(value);
-
-const formatDate = ({ date, dateLabel, locale }) => {
-  if (dateLabel) return dateLabel;
-  if (!date) return '';
-
-  const parsedDate = new Date(date);
-  if (Number.isNaN(parsedDate.getTime())) return '';
-
-  return new Intl.DateTimeFormat(locale, {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
-  }).format(parsedDate);
-};
-
-const getTransactionIcon = transaction => {
-  const category = transaction.category?.toLowerCase();
-  const title = transaction.title?.toLowerCase();
-
-  return categoryIcons[category] || categoryIcons[title] || faReceipt;
-};
 
 const getAmountLabel = ({ amount, type, currency, locale }) => {
   const normalizedAmount = Math.abs(Number(amount) || 0);
@@ -99,7 +18,7 @@ const getAmountLabel = ({ amount, type, currency, locale }) => {
 
 const TransactionHistory = ({
   title = 'Transactions History',
-  transactions = demoTransactions,
+  transactions = [],
   maxItems = 5,
   seeAllLabel = 'See all',
   onSeeAll,
@@ -142,7 +61,7 @@ const TransactionHistory = ({
                     isIncome ? styles['icon-box-income'] : styles['icon-box-expense']
                   )}
                 >
-                  <FontAwesomeIcon icon={getTransactionIcon(transaction)} />
+                  <FontAwesomeIcon icon={getTransactionCategoryIcon(transaction.category)} />
                 </span>
 
                 <div className="min-w-0 flex-1">

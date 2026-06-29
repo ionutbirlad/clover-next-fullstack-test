@@ -6,6 +6,42 @@ import TransactionHistory from '../components/domain/TransactionHistory';
 
 const { Paragraph } = Typography;
 
+// TransactionHistory component
+const demoTransactions = [
+  {
+    id: 'demo-upwork',
+    title: 'Upwork',
+    dateLabel: 'Today',
+    amount: 850,
+    type: 'income',
+    category: 'freelance'
+  },
+  {
+    id: 'demo-transfer',
+    title: 'Transfer',
+    dateLabel: 'Yesterday',
+    amount: 85,
+    type: 'expense',
+    category: 'salary'
+  },
+  {
+    id: 'demo-paypal',
+    title: 'Paypal',
+    dateLabel: 'Jan 30, 2022',
+    amount: 1406,
+    type: 'income',
+    category: 'food'
+  },
+  {
+    id: 'demo-youtube',
+    title: 'Youtube',
+    dateLabel: 'Jan 16, 2022',
+    amount: 11.99,
+    type: 'expense',
+    category: 'bills'
+  }
+];
+
 const ComponentPlayground = () => (
   <ContentPanel title="Component Playground">
     {/* TODO: temporary assessment playground. Remove this route before final polish if no longer useful. */}
@@ -27,7 +63,7 @@ const ComponentPlayground = () => (
         <FinanceSummaryCard />
       </Col>
       <Col xs={24} md={12} xl={8}>
-        <TransactionHistory />
+        <TransactionHistory transactions={demoTransactions} />
       </Col>
     </Row>
   </ContentPanel>

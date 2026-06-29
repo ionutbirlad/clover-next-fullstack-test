@@ -3,17 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown, faArrowUp, faChevronUp, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
 import { classNames } from '../../../helpers/core/utils';
+import formatCurrency from '../../../helpers/core/formatCurrency';
 import styles from './FinanceSummaryCard.module.css';
 
 const { Text, Title } = Typography;
-
-const formatCurrency = ({ value, currency, locale }) =>
-  new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency,
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 2
-  }).format(value);
 
 const FinanceSummaryCard = ({
   title = 'Total Balance',
