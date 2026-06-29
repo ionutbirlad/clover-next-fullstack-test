@@ -3,6 +3,7 @@ import { Alert, Col, Row, Typography } from 'antd';
 
 import ContentPanel from '../components/core/layout/ContentPanel';
 import FinanceSummaryCard from '../components/domain/FinanceSummaryCard';
+import TransactionDetailTable from '../components/domain/TransactionDetailTable';
 import TransactionForm from '../components/domain/TransactionForm';
 import TransactionHistory from '../components/domain/TransactionHistory';
 import TransactionTrendChart from '../components/domain/TransactionTrendChart';
@@ -24,6 +25,8 @@ const demoTransactions = [
     id: 'demo-upwork',
     title: 'Upwork',
     date: '2026-06-29T00:00:00.000Z',
+    createdAt: '2026-06-29T08:15:00.000Z',
+    updatedAt: '2026-06-29T08:15:00.000Z',
     dateLabel: 'Today',
     amount: 850,
     type: 'income',
@@ -33,6 +36,8 @@ const demoTransactions = [
     id: 'demo-transfer',
     title: 'Transfer',
     date: '2026-06-28T00:00:00.000Z',
+    createdAt: '2026-06-28T16:30:00.000Z',
+    updatedAt: '2026-06-28T16:45:00.000Z',
     dateLabel: 'Yesterday',
     amount: 85,
     type: 'expense',
@@ -42,6 +47,8 @@ const demoTransactions = [
     id: 'demo-paypal',
     title: 'Paypal',
     date: '2026-06-18T00:00:00.000Z',
+    createdAt: '2026-06-18T13:40:00.000Z',
+    updatedAt: '2026-06-18T13:40:00.000Z',
     dateLabel: 'Jan 30, 2022',
     amount: 1406,
     type: 'income',
@@ -51,6 +58,8 @@ const demoTransactions = [
     id: 'demo-youtube',
     title: 'Youtube',
     date: '2026-05-30T00:00:00.000Z',
+    createdAt: '2026-05-30T21:05:00.000Z',
+    updatedAt: '2026-05-30T21:05:00.000Z',
     dateLabel: 'Jan 16, 2022',
     amount: 11.99,
     type: 'expense',
@@ -112,6 +121,9 @@ const ComponentPlayground = () => {
             submitLabel="Add transaction"
             onSubmit={values => Promise.resolve(values)}
           />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <TransactionDetailTable transaction={demoTransactions[0]} categories={demoTransactionCategories} />
         </Col>
       </Row>
     </ContentPanel>

@@ -1,4 +1,4 @@
-const formatDate = ({ date, dateLabel, locale }) => {
+const formatDate = ({ date, dateLabel, locale, showTime = false }) => {
   if (dateLabel) return dateLabel;
   if (!date) return '';
 
@@ -8,7 +8,8 @@ const formatDate = ({ date, dateLabel, locale }) => {
   return new Intl.DateTimeFormat(locale, {
     month: 'short',
     day: 'numeric',
-    year: 'numeric'
+    year: 'numeric',
+    ...(showTime ? { hour: '2-digit', minute: '2-digit' } : {})
   }).format(parsedDate);
 };
 
