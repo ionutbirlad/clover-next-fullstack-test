@@ -2,7 +2,7 @@ import { Button, Card, Space, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown, faArrowUp, faChevronUp, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
-import { classNames } from '../../../../helpers/core/utils';
+import { classNames } from '../../../helpers/core/utils';
 import styles from './FinanceSummaryCard.module.css';
 
 const { Text, Title } = Typography;

@@ -1,7 +1,8 @@
 import { Alert, Col, Row, Typography } from 'antd';
 
 import ContentPanel from '../components/core/layout/ContentPanel';
-import FinanceSummaryCard from '../components/domain/finance/FinanceSummaryCard';
+import FinanceSummaryCard from '../components/domain/FinanceSummaryCard';
+import TransactionHistory from '../components/domain/TransactionHistory';
 
 const { Paragraph } = Typography;
 
@@ -24,6 +25,9 @@ const ComponentPlayground = () => (
     <Row gutter={[24, 24]}>
       <Col xs={24} md={12} xl={8}>
         <FinanceSummaryCard />
+      </Col>
+      <Col xs={24} md={12} xl={8}>
+        <TransactionHistory />
       </Col>
     </Row>
   </ContentPanel>
