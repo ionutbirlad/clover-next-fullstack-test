@@ -1,0 +1,154 @@
+import { useState } from 'react';
+import { Card, Empty, Segmented, Select, Typography, theme } from 'antd';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+
+import { classNames } from '../../../helpers/core/utils';
+import formatCurrency from '../../../helpers/core/formatCurrency';
+import styles from './TransactionTrendChart.module.css';
+
+const { Text, Title } = Typography;
+const { useToken } = theme;
+
+const rangeOptions = [
+  { label: 'Day', value: 'day' },
+  { label: 'Week', value: 'week' },
+  { label: 'Month', value: 'month' },
+  { label: 'Year', value: 'year' }
+];
+
+const metricOptions = [
+  { label: 'Expense', value: 'expense' },
+  { label: 'Income', value: 'income' }
+];
+
+const ChartTooltip = ({ active, payload, label, currency, locale }) => {
+  if (!active || !payload?.length) return null;
+
+  const [{ value }] = payload;
+
+  return (
+    <div className={styles.tooltip}>
+      <Text className="!text-primary block !text-xs !font-semibold">{label}</Text>
+      <Text className="block !text-sm !font-bold">
+        {formatCurrency({
+          value,
+          currency,
+          locale
+        })}
+      </Text>
+    </div>
+  );
+};
+
+const TransactionTrendChart = ({
+  title = 'Cash Flow',
+  data = [],
+  defaultRange = 'day',
+  range,
+  onRangeChange,
+  defaultMetric = 'expense',
+  metric,
+  onMetricChange,
+  currency = 'USD',
+  locale = 'en-US',
+  className = ''
+}) => {
+  const { token } = useToken();
+  const [internalRange, setInternalRange] = useState(defaultRange);
+  const [internalMetric, setInternalMetric] = useState(defaultMetric);
+
+  const selectedRange = range || internalRange;
+  const selectedMetric = metric || internalMetric;
+
+  const handleRangeChange = value => {
+    if (!range) setInternalRange(value);
+    onRangeChange?.(value);
+  };
+
+  const handleMetricChange = value => {
+    if (!metric) setInternalMetric(value);
+    onMetricChange?.(value);
+  };
+
+  return (
+    <Card
+      bordered={false}
+      className={classNames(styles.card, 'h-fit w-full', className)}
+      styles={{ body: { padding: 0 } }}
+    >
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <Title level={5} className="!m-0 !text-base !font-bold">
+              {title}
+            </Title>
+            <Text className="!text-secondary !text-xs">Transaction trend</Text>
+          </div>
+
+          <Select
+            size="middle"
+            value={selectedMetric}
+            options={metricOptions}
+            onChange={handleMetricChange}
+            className="w-full sm:w-[118px]"
+          />
+        </div>
+
+        <Segmented
+          block
+          size="large"
+          value={selectedRange}
+          options={rangeOptions}
+          onChange={handleRangeChange}
+          className={styles.segmented}
+        />
+
+        {data.length > 0 ? (
+          <div className="h-[220px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={data} margin={{ top: 20, right: 8, bottom: 4, left: 8 }}>
+                <defs>
+                  <linearGradient id="transaction-trend-gradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={token.colorPrimary} stopOpacity={0.24} />
+                    <stop offset="95%" stopColor={token.colorPrimary} stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+
+                <XAxis
+                  dataKey="label"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: token.colorTextSecondary, fontSize: 11 }}
+                  dy={8}
+                />
+                <YAxis hide domain={['dataMin - 120', 'dataMax + 120']} />
+                <Tooltip
+                  cursor={{ stroke: token.colorPrimary, strokeDasharray: '4 4', strokeWidth: 1 }}
+                  content={<ChartTooltip currency={currency} locale={locale} />}
+                />
+                <Area
+                  type="monotone"
+                  dataKey={selectedMetric}
+                  stroke={token.colorPrimary}
+                  strokeWidth={2}
+                  fill="url(#transaction-trend-gradient)"
+                  activeDot={{
+                    r: 6,
+                    fill: token.colorPrimary,
+                    stroke: token.colorBgContainer,
+                    strokeWidth: 4
+                  }}
+                  dot={false}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No trend data yet" className="mb-0 mt-4" />
+        )}
+      </div>
+    </Card>
+  );
+};
+
+export default TransactionTrendChart;
