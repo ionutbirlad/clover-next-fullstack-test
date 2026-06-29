@@ -1,13 +1,23 @@
 import { useMemo, useState } from 'react';
-import { Alert, Col, Row, Typography } from 'antd';
+import { Alert, Card, Col, Row, Typography } from 'antd';
 
 import ContentPanel from '../components/core/layout/ContentPanel';
 import FinanceSummaryCard from '../components/domain/FinanceSummaryCard';
+import TransactionCategorySelect from '../components/domain/TransactionCategorySelect';
 import TransactionHistory from '../components/domain/TransactionHistory';
 import TransactionTrendChart from '../components/domain/TransactionTrendChart';
+import TransactionTypeSegmented from '../components/domain/TransactionTypeSegmented';
 import buildTransactionTrendData from '../components/domain/TransactionTrendChart/buildTransactionTrendData';
 
-const { Paragraph } = Typography;
+const { Paragraph, Text, Title } = Typography;
+
+const demoTransactionCategories = [
+  { value: 'salary', label: 'Salary', type: 'income' },
+  { value: 'freelance', label: 'Freelance', type: 'income' },
+  { value: 'food', label: 'Food', type: 'expense' },
+  { value: 'bills', label: 'Bills', type: 'expense' },
+  { value: 'shopping', label: 'Shopping', type: 'expense' }
+];
 
 // TransactionHistory component
 const demoTransactions = [
@@ -65,11 +75,18 @@ const demoTrendTransactions = [
 
 const ComponentPlayground = () => {
   const [trendRange, setTrendRange] = useState('day');
+  const [transactionType, setTransactionType] = useState('expense');
+  const [transactionCategory, setTransactionCategory] = useState();
 
   const trendData = useMemo(
     () => buildTransactionTrendData({ transactions: demoTrendTransactions, range: trendRange }),
     [trendRange]
   );
+
+  const handleTransactionTypeChange = type => {
+    setTransactionType(type);
+    setTransactionCategory(undefined);
+  };
 
   return (
     <ContentPanel title="Component Playground">
@@ -96,6 +113,30 @@ const ComponentPlayground = () => {
         </Col>
         <Col xs={24} xl={12}>
           <TransactionTrendChart data={trendData} range={trendRange} onRangeChange={setTrendRange} />
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          <Card
+            bordered={false}
+            className="h-fit w-full rounded-[18px] p-5 shadow-[0_12px_32px_rgb(47_126_121_/_10%)]"
+            styles={{ body: { padding: 0 } }}
+          >
+            <div className="flex flex-col gap-4">
+              <div>
+                <Title level={5} className="!m-0 !text-base !font-bold">
+                  Transaction Controls
+                </Title>
+                <Text className="!text-secondary !text-xs">Form-ready inputs for add/edit transaction flows</Text>
+              </div>
+
+              <TransactionTypeSegmented value={transactionType} onChange={handleTransactionTypeChange} />
+              <TransactionCategorySelect
+                categories={demoTransactionCategories}
+                type={transactionType}
+                value={transactionCategory}
+                onChange={setTransactionCategory}
+              />
+            </div>
+          </Card>
         </Col>
       </Row>
     </ContentPanel>
