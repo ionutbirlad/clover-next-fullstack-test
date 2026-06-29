@@ -29,7 +29,7 @@ const FinanceSummaryCard = ({
   return (
     <Card
       bordered={false}
-      className={classNames(styles.card, 'min-h-[148px] w-full overflow-hidden text-white', className)}
+      className={classNames(styles.card, 'min-h-[148px] w-full overflow-hidden text-white', 'h-fit', className)}
       styles={{ body: { height: '100%', padding: 0 } }}
     >
       <div className="h-full px-5 py-[18px]">

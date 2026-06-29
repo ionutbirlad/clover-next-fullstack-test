@@ -110,7 +110,11 @@ const TransactionHistory = ({
   const visibleTransactions = transactions.slice(0, maxItems);
 
   return (
-    <Card bordered={false} className={classNames(styles.card, 'w-full', className)} styles={{ body: { padding: 0 } }}>
+    <Card
+      bordered={false}
+      className={classNames(styles.card, 'w-full', 'h-fit', className)}
+      styles={{ body: { padding: 0 } }}
+    >
       <div className="flex items-center justify-between gap-4">
         <Title level={5} className="!m-0 !text-base !font-bold">
           {title}
