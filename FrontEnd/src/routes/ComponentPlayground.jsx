@@ -1,15 +1,14 @@
 import { useMemo, useState } from 'react';
-import { Alert, Card, Col, Row, Typography } from 'antd';
+import { Alert, Col, Row, Typography } from 'antd';
 
 import ContentPanel from '../components/core/layout/ContentPanel';
 import FinanceSummaryCard from '../components/domain/FinanceSummaryCard';
-import TransactionCategorySelect from '../components/domain/TransactionCategorySelect';
+import TransactionForm from '../components/domain/TransactionForm';
 import TransactionHistory from '../components/domain/TransactionHistory';
 import TransactionTrendChart from '../components/domain/TransactionTrendChart';
-import TransactionTypeSegmented from '../components/domain/TransactionTypeSegmented';
 import buildTransactionTrendData from '../components/domain/TransactionTrendChart/buildTransactionTrendData';
 
-const { Paragraph, Text, Title } = Typography;
+const { Paragraph } = Typography;
 
 const demoTransactionCategories = [
   { value: 'salary', label: 'Salary', type: 'income' },
@@ -75,18 +74,11 @@ const demoTrendTransactions = [
 
 const ComponentPlayground = () => {
   const [trendRange, setTrendRange] = useState('day');
-  const [transactionType, setTransactionType] = useState('expense');
-  const [transactionCategory, setTransactionCategory] = useState();
 
   const trendData = useMemo(
     () => buildTransactionTrendData({ transactions: demoTrendTransactions, range: trendRange }),
     [trendRange]
   );
-
-  const handleTransactionTypeChange = type => {
-    setTransactionType(type);
-    setTransactionCategory(undefined);
-  };
 
   return (
     <ContentPanel title="Component Playground">
@@ -115,28 +107,11 @@ const ComponentPlayground = () => {
           <TransactionTrendChart data={trendData} range={trendRange} onRangeChange={setTrendRange} />
         </Col>
         <Col xs={24} md={12} xl={8}>
-          <Card
-            bordered={false}
-            className="h-fit w-full rounded-[18px] p-5 shadow-[0_12px_32px_rgb(47_126_121_/_10%)]"
-            styles={{ body: { padding: 0 } }}
-          >
-            <div className="flex flex-col gap-4">
-              <div>
-                <Title level={5} className="!m-0 !text-base !font-bold">
-                  Transaction Controls
-                </Title>
-                <Text className="!text-secondary !text-xs">Form-ready inputs for add/edit transaction flows</Text>
-              </div>
-
-              <TransactionTypeSegmented value={transactionType} onChange={handleTransactionTypeChange} />
-              <TransactionCategorySelect
-                categories={demoTransactionCategories}
-                type={transactionType}
-                value={transactionCategory}
-                onChange={setTransactionCategory}
-              />
-            </div>
-          </Card>
+          <TransactionForm
+            categories={demoTransactionCategories}
+            submitLabel="Add transaction"
+            onSubmit={values => Promise.resolve(values)}
+          />
         </Col>
       </Row>
     </ContentPanel>
