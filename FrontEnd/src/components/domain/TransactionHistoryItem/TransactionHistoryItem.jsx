@@ -1,10 +1,10 @@
 import { Space, Typography } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import TransactionCategoryIcon from '../TransactionCategoryIcon';
 
 import { classNames } from '../../../helpers/core/utils';
 import formatCurrency from '../../../helpers/core/formatCurrency';
 import formatDate from '../../../helpers/core/formatDate';
-import getTransactionCategoryIcon from './transactionCategoryUi';
 import styles from './TransactionHistoryItem.module.css';
 
 const { Text } = Typography;
@@ -24,7 +24,7 @@ const TransactionHistoryItem = ({ transaction, currency = 'USD', locale = 'en-US
       <span
         className={classNames(styles['icon-box'], isIncome ? styles['icon-box-income'] : styles['icon-box-expense'])}
       >
-        <FontAwesomeIcon icon={getTransactionCategoryIcon(transaction.category)} />
+        <TransactionCategoryIcon category={transaction.category} />
       </span>
 
       <div className="min-w-0 flex-1">

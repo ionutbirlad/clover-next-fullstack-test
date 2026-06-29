@@ -1,6 +1,6 @@
 import { Card, Empty, Typography } from 'antd';
 
-import TransactionHistoryItem from '../TransactionHistoryItem/TransactionHistoryItem';
+import TransactionHistoryItem from '../TransactionHistoryItem';
 
 import { classNames } from '../../../helpers/core/utils';
 import styles from './TransactionHistory.module.css';
