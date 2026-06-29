@@ -17,23 +17,3 @@
     color: var(--color-primary);
   }
 }
-
-.icon-box {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 9px;
-  font-size: 18px;
-}
-
-.icon-box-income {
-  color: var(--color-success);
-  background: rgb(37 169 105 / 10%);
-}
-
-.icon-box-expense {
-  color: var(--color-error);
-  background: rgb(255 56 60 / 8%);
-}
