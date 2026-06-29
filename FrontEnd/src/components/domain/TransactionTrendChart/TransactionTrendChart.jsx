@@ -4,7 +4,6 @@ import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'rec
 
 import { classNames } from '../../../helpers/core/utils';
 import formatCurrency from '../../../helpers/core/formatCurrency';
-import styles from './TransactionTrendChart.module.css';
 
 const { Text, Title } = Typography;
 const { useToken } = theme;
@@ -27,7 +26,7 @@ const ChartTooltip = ({ active, payload, label, currency, locale }) => {
   const [{ value }] = payload;
 
   return (
-    <div className={styles.tooltip}>
+    <div className="min-w-24 rounded-[10px] border border-[var(--ant-color-border-secondary)] bg-[var(--ant-color-bg-container)] px-2.5 py-2 shadow-[0_10px_24px_rgb(47_126_121_/_14%)]">
       <Text className="!text-primary block !text-xs !font-semibold">{label}</Text>
       <Text className="block !text-sm !font-bold">
         {formatCurrency({
@@ -73,7 +72,7 @@ const TransactionTrendChart = ({
   return (
     <Card
       bordered={false}
-      className={classNames(styles.card, 'h-fit w-full', className)}
+      className={classNames('h-fit w-full rounded-[18px] p-5 shadow-[0_12px_32px_rgb(47_126_121_/_10%)]', className)}
       styles={{ body: { padding: 0 } }}
     >
       <div className="flex flex-col gap-5">
@@ -100,7 +99,7 @@ const TransactionTrendChart = ({
           value={selectedRange}
           options={rangeOptions}
           onChange={handleRangeChange}
-          className={styles.segmented}
+          className="bg-transparent p-1"
         />
 
         {data.length > 0 ? (
