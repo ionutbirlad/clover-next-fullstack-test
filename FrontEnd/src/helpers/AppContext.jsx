@@ -2,7 +2,7 @@ import { useState, createContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faChartArea, faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faChartArea, faFlask, faWallet } from '@fortawesome/free-solid-svg-icons';
 
 import useLocalStorage from '../hooks/core/useLocalStorage';
 
@@ -49,6 +49,14 @@ export const AppProvider = props => {
         icon: <FontAwesomeIcon icon={faChartArea} />,
         authorizedRoles: ['admin', 'designer', 'manufacturer', 'owner'],
         path: '/statistics'
+      },
+      {
+        // TODO: temporary route for Milestone 3 component development. Remove before final delivery if unused.
+        label: <Link to="/playground">Playground (temp)</Link>,
+        key: 'componentPlayground',
+        icon: <FontAwesomeIcon icon={faFlask} />,
+        authorizedRoles: ['admin', 'designer', 'manufacturer', 'owner'],
+        path: '/playground'
       }
     ]
   };
