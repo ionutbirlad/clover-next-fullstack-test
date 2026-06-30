@@ -1,6 +1,7 @@
 import { Card, Divider, Empty, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 import { classNames } from '../../../helpers/core/utils';
 import formatCurrency from '../../../helpers/core/formatCurrency';
@@ -34,6 +35,8 @@ const TransactionDetailTable = ({
   locale = 'en-US',
   className = ''
 }) => {
+  const { t } = useTranslation();
+
   if (!transaction) {
     return (
       <Card
@@ -41,24 +44,39 @@ const TransactionDetailTable = ({
         className={classNames('h-fit w-full rounded-[18px] p-5 shadow-[0_12px_32px_rgb(47_126_121_/_10%)]', className)}
         styles={{ body: { padding: 0 } }}
       >
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No transaction selected" className="mb-0" />
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description={t('components.transactionDetailTable.empty')}
+          className="mb-0"
+        />
       </Card>
     );
   }
 
   const isIncome = transaction.type === 'income';
-  const typeLabel = isIncome ? 'Income' : 'Expense';
+  const typeLabel = isIncome
+    ? t('components.transactionDetailTable.type.income')
+    : t('components.transactionDetailTable.type.expense');
   const amount = Math.abs(Number(transaction.amount) || 0);
   const typeColorClass = isIncome ? '!text-success' : '!text-error';
   const iconBoxClass = isIncome ? 'bg-[rgb(37_169_105_/_10%)] text-success' : 'bg-[rgb(255_56_60_/_8%)] text-error';
   const categoryLabel = getCategoryLabel({ category: transaction.category, categories });
   const detailRows = [
-    { label: 'Status', value: typeLabel, valueClassName: typeColorClass },
-    { label: 'Name', value: transaction.title },
-    { label: 'Category', value: categoryLabel },
-    { label: 'Transaction date', value: formatDate({ date: transaction.date, locale }) },
-    { label: 'Created', value: formatDate({ date: transaction.createdAt, locale, showTime: true }) },
-    { label: 'Updated', value: formatDate({ date: transaction.updatedAt, locale, showTime: true }) }
+    { label: t('components.transactionDetailTable.fields.status'), value: typeLabel, valueClassName: typeColorClass },
+    { label: t('components.transactionDetailTable.fields.name'), value: transaction.title },
+    { label: t('components.transactionDetailTable.fields.category'), value: categoryLabel },
+    {
+      label: t('components.transactionDetailTable.fields.transactionDate'),
+      value: formatDate({ date: transaction.date, locale })
+    },
+    {
+      label: t('components.transactionDetailTable.fields.created'),
+      value: formatDate({ date: transaction.createdAt, locale, showTime: true })
+    },
+    {
+      label: t('components.transactionDetailTable.fields.updated'),
+      value: formatDate({ date: transaction.updatedAt, locale, showTime: true })
+    }
   ];
 
   return (
@@ -91,7 +109,7 @@ const TransactionDetailTable = ({
       <div className="mt-8">
         <div className="mb-4 flex items-center justify-between gap-4">
           <Title level={5} className="!m-0 !text-base !font-semibold">
-            Transaction details
+            {t('components.transactionDetailTable.title')}
           </Title>
           <FontAwesomeIcon icon={faChevronUp} className="text-secondary h-3 w-3" />
         </div>
@@ -105,7 +123,7 @@ const TransactionDetailTable = ({
         <Divider className="!my-5" />
 
         <DetailRow
-          label="Total"
+          label={t('components.transactionDetailTable.fields.total')}
           value={formatCurrency({ value: amount, currency, locale })}
           valueClassName="!font-bold"
         />

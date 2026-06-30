@@ -136,6 +136,23 @@
       "submit": {
         "label": "Salva transazione"
       }
+    },
+    "transactionDetailTable": {
+      "empty": "Nessuna transazione selezionata",
+      "title": "Dettagli transazione",
+      "type": {
+        "income": "Entrata",
+        "expense": "Uscita"
+      },
+      "fields": {
+        "status": "Stato",
+        "name": "Nome",
+        "category": "Categoria",
+        "transactionDate": "Data transazione",
+        "created": "Creata",
+        "updated": "Aggiornata",
+        "total": "Totale"
+      }
     }
   }
 }
