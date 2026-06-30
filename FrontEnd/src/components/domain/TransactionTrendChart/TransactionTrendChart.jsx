@@ -145,7 +145,11 @@ const TransactionTrendChart = ({
             </ResponsiveContainer>
           </div>
         ) : (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No trend data yet" className="mb-0 mt-4" />
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={t('components.transactionsTrendChart.empty')}
+            className="mb-0 mt-4"
+          />
         )}
       </div>
     </Card>

@@ -52,7 +52,11 @@ const TransactionHistory = ({
           ))}
         </div>
       ) : (
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No transactions yet" className="mb-0 mt-6" />
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description={t('components.transactionsHistory.empty')}
+          className="mb-0 mt-6"
+        />
       )}
     </Card>
   );

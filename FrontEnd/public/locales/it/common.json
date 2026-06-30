@@ -88,11 +88,13 @@
     },
     "transactionsHistory": {
       "title": "Storico Transazioni",
-      "seeAll": "Vedi tutte"
+      "seeAll": "Vedi tutte",
+      "empty": "Ancora nessuna transazione"
     },
     "transactionsTrendChart": {
       "title": "Flusso di cassa",
       "subtitle": "Trend delle transazioni",
+      "empty": "Nessun trend disponibile ancora",
       "metricOptions": {
         "income": "Entrate",
         "expense": "Uscite"
@@ -109,6 +111,8 @@
       "expense": "Uscite"
     },
     "transactionForm": {
+      "title": "Transazione",
+      "subtitle": "Aggiungi o modifica un movimento finanziario",
       "typeSelection": {
         "label": "Tipologia",
         "errorMessage": "Seleziona una tipologia"
@@ -121,7 +125,10 @@
       "name": {
         "label": "Nome",
         "placeholder": "Netflix",
-        "errorMessage": "Il nome non puo superare gli 80 caratteri"
+        "errors": {
+          "required": "Inserisci un nome per la transazione",
+          "exceed": "Il nome non puo superare gli 80 caratteri"
+        }
       },
       "amount": {
         "label": "Importo",

@@ -60,9 +60,9 @@ const TransactionForm = ({
     >
       <div className="mb-5">
         <Title level={5} className="!m-0 !text-base !font-bold">
-          Transaction
+          {t('components.transactionForm.title')}
         </Title>
-        <Text className="!text-secondary !text-xs">Create or update a financial movement</Text>
+        <Text className="!text-secondary !text-xs">{t('components.transactionForm.subtitle')}</Text>
       </div>
 
       <WrapperForm
@@ -100,8 +100,8 @@ const TransactionForm = ({
           label={t('components.transactionForm.name.label')}
           name="title"
           rules={[
-            { required: true, message: 'Enter a transaction name' },
-            { max: 80, message: t('components.transactionForm.name.errorMessage') }
+            { required: true, message: t('components.transactionForm.name.errors.required') },
+            { max: 80, message: t('components.transactionForm.name.errors.exceed') }
           ]}
           className="mb-4"
         >

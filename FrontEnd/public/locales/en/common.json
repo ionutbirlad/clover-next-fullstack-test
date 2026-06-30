@@ -88,11 +88,13 @@
     },
     "transactionsHistory": {
       "title": "Transactions History",
-      "seeAll": "See all"
+      "seeAll": "See all",
+      "empty": "No transactions yet"
     },
     "transactionsTrendChart": {
       "title": "Cash flow",
       "subtitle": "Transactions trend",
+      "empty": "No trend data yet",
       "metricOptions": {
         "income": "Income",
         "expense": "Expense"
@@ -109,6 +111,8 @@
       "expense": "Expense"
     },
     "transactionForm": {
+      "title": "Transaction",
+      "subtitle": "Create or update a financial movement",
       "typeSelection": {
         "label": "Type",
         "errorMessage": "Select a transaction type"
@@ -121,7 +125,10 @@
       "name": {
         "label": "Name",
         "placeholder": "Netflix",
-        "errorMessage": "Name cannot exceed 80 characters"
+        "errors": {
+          "required": "Enter a transaction name",
+          "exceed": "Name cannot exceed 80 characters"
+        }
       },
       "amount": {
         "label": "Amount",
