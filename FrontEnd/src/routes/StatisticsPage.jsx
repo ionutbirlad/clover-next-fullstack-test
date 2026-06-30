@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import { Result } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartArea } from '@fortawesome/free-solid-svg-icons';
 
 import ContentPanel from '../components/core/layout/ContentPanel';
 
@@ -9,12 +6,12 @@ const StatisticsPage = () => {
   const [loading] = useState(false);
 
   return (
-    <ContentPanel title="Statistics Page" loading={loading}>
-      <Result
-        icon={<FontAwesomeIcon icon={faChartArea} size="4x" className="text-primary" />}
-        title="Expense and Income Diary"
-        subTitle="STATISTICS PAGE HERE"
-      />
+    <ContentPanel title="Dashboard" loading={loading}>
+      <div className="grid grid-cols-12 gap-5">
+        <div className="col-span-12 bg-red-50 md:col-span-7">STATISTICS CHART HERE</div>
+
+        <div className="col-span-12 bg-amber-50 md:col-span-5">TOP SPENDING TRANSACTIONS HERE</div>
+      </div>
     </ContentPanel>
   );
 };
