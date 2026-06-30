@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { DatePicker, Form, Input, Typography } from 'antd';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 
 import CostInput from '../../core/controls/CostInput';
 import SubmitButton from '../../core/controls/SubmitButton';
@@ -22,12 +23,12 @@ const normalizeInitialValues = initialValues => ({
 const TransactionForm = ({
   categories = [],
   initialValues = emptyInitialValues,
-  submitLabel = 'Save transaction',
   onSubmit,
   disabled = false,
   currency,
   className = ''
 }) => {
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const submitButtonRef = useRef(null);
 
@@ -74,50 +75,68 @@ const TransactionForm = ({
         disabled={disabled}
       >
         <Form.Item
-          label="Type"
+          label={t('components.transactionForm.typeSelection.label')}
           name="type"
-          rules={[{ required: true, message: 'Select a transaction type' }]}
+          rules={[{ required: true, message: t('components.transactionForm.typeSelection.errorMessage') }]}
           className="mb-4"
         >
           <TransactionTypeSegmented />
         </Form.Item>
 
         <Form.Item
-          label="Category"
+          label={t('components.transactionForm.categorySelection.label')}
           name="category"
-          rules={[{ required: true, message: 'Select a transaction category' }]}
+          rules={[{ required: true, message: t('components.transactionForm.categorySelection.errorMessage') }]}
           className="mb-4"
         >
-          <TransactionCategorySelect categories={categories} type={selectedType} placeholder="Select category" />
+          <TransactionCategorySelect
+            categories={categories}
+            type={selectedType}
+            placeholder={t('components.transactionForm.categorySelection.placeholder')}
+          />
         </Form.Item>
 
         <Form.Item
-          label="Name"
+          label={t('components.transactionForm.name.label')}
           name="title"
           rules={[
             { required: true, message: 'Enter a transaction name' },
-            { max: 80, message: 'Name cannot exceed 80 characters' }
+            { max: 80, message: t('components.transactionForm.name.errorMessage') }
           ]}
           className="mb-4"
         >
-          <Input placeholder="Netflix" />
+          <Input placeholder={t('components.transactionForm.name.placeholder')} />
         </Form.Item>
 
         <Form.Item
-          label="Amount"
+          label={t('components.transactionForm.amount.label')}
           name="amount"
-          rules={[{ required: true, message: 'Enter an amount' }]}
+          rules={[{ required: true, message: t('components.transactionForm.amount.errorMessage') }]}
           className="mb-4"
         >
-          <CostInput className="w-full" controls={false} placeholder="48.00" currency={currency} />
+          <CostInput
+            className="w-full"
+            controls={false}
+            placeholder={t('components.transactionForm.amount.placeholder')}
+            currency={currency}
+          />
         </Form.Item>
 
-        <Form.Item label="Date" name="date" rules={[{ required: true, message: 'Select a date' }]} className="mb-6">
-          <DatePicker className="w-full" format="ddd, DD MMM YYYY" />
+        <Form.Item
+          label={t('components.transactionForm.date.label')}
+          name="date"
+          rules={[{ required: true, message: t('components.transactionForm.date.errorMessage') }]}
+          className="mb-6"
+        >
+          <DatePicker
+            className="w-full"
+            format="ddd, DD MMM YYYY"
+            placeholder={t('components.transactionForm.date.placeholder')}
+          />
         </Form.Item>
 
         <SubmitButton ref={submitButtonRef} type="primary" block>
-          {submitLabel}
+          {t('components.transactionForm.submit.label')}
         </SubmitButton>
       </WrapperForm>
     </div>

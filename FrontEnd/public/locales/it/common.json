@@ -79,5 +79,63 @@
       "statistics": "Statistiche",
       "wallet": "Portafoglio"
     }
+  },
+  "components": {
+    "financeSummaryCard": {
+      "total": "Totale",
+      "income": "Entrate",
+      "expense": "Uscite"
+    },
+    "transactionsHistory": {
+      "title": "Storico Transazioni",
+      "seeAll": "Vedi tutte"
+    },
+    "transactionsTrendChart": {
+      "title": "Flusso di cassa",
+      "subtitle": "Trend delle transazioni",
+      "metricOptions": {
+        "income": "Entrate",
+        "expense": "Uscite"
+      },
+      "rangeOptions": {
+        "day": "Giornaliero",
+        "week": "Settimanale",
+        "month": "Mensile",
+        "year": "Annuale"
+      }
+    },
+    "transactionTypeSegmented": {
+      "income": "Entrata",
+      "expense": "Uscite"
+    },
+    "transactionForm": {
+      "typeSelection": {
+        "label": "Tipologia",
+        "errorMessage": "Seleziona una tipologia"
+      },
+      "categorySelection": {
+        "label": "Categoria",
+        "placeholder": "Seleziona una categoria",
+        "errorMessage": "Seleziona una categoria"
+      },
+      "name": {
+        "label": "Nome",
+        "placeholder": "Netflix",
+        "errorMessage": "Il nome non puo superare gli 80 caratteri"
+      },
+      "amount": {
+        "label": "Importo",
+        "placeholder": "48.00",
+        "errorMessage": "Inserisci un importo"
+      },
+      "date": {
+        "label": "Data",
+        "placeholder": "Seleziona una data",
+        "errorMessage": "Seleziona una data"
+      },
+      "submit": {
+        "label": "Salva transazione"
+      }
+    }
   }
 }

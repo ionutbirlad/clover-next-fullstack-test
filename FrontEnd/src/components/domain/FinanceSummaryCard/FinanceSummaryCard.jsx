@@ -2,6 +2,8 @@ import { Button, Card, Space, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown, faArrowUp, faChevronUp, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
+import { useTranslation } from 'react-i18next';
+
 import { classNames } from '../../../helpers/core/utils';
 import formatCurrency from '../../../helpers/core/formatCurrency';
 import styles from './FinanceSummaryCard.module.css';
@@ -9,7 +11,6 @@ import styles from './FinanceSummaryCard.module.css';
 const { Text, Title } = Typography;
 
 const FinanceSummaryCard = ({
-  title = 'Total Balance',
   balance = 2548,
   income = 1840,
   expenses = 284,
@@ -17,6 +18,8 @@ const FinanceSummaryCard = ({
   locale = 'en-US',
   className = ''
 }) => {
+  const { t } = useTranslation();
+
   const amountFormatter = value => formatCurrency({ value, currency, locale });
 
   return (
@@ -28,7 +31,9 @@ const FinanceSummaryCard = ({
       <div className="h-full px-5 py-[18px]">
         <div className="flex items-center justify-between gap-3">
           <Space size={4} className="text-inherit">
-            <Text className="!text-xs !font-bold !leading-[1.2] !text-inherit">{title}</Text>
+            <Text className="!text-xs !font-bold !leading-[1.2] !text-inherit">
+              {t('components.financeSummaryCard.total')}
+            </Text>
             <FontAwesomeIcon icon={faChevronUp} className="h-[9px] w-[9px] opacity-90" />
           </Space>
 
@@ -51,7 +56,7 @@ const FinanceSummaryCard = ({
               <span className="inline-flex h-[17px] w-[17px] items-center justify-center rounded-full bg-white/20 text-[9px] text-white">
                 <FontAwesomeIcon icon={faArrowDown} />
               </span>
-              <Text className="!text-xs !leading-[1.2] !text-inherit">Income</Text>
+              <Text className="!text-xs !leading-[1.2] !text-inherit">{t('components.financeSummaryCard.income')}</Text>
             </Space>
             <Text className="block !text-base !font-bold !leading-tight !text-white">{amountFormatter(income)}</Text>
           </div>
@@ -61,7 +66,9 @@ const FinanceSummaryCard = ({
               <span className="inline-flex h-[17px] w-[17px] items-center justify-center rounded-full bg-white/20 text-[9px] text-white">
                 <FontAwesomeIcon icon={faArrowUp} />
               </span>
-              <Text className="!text-xs !leading-[1.2] !text-inherit">Expenses</Text>
+              <Text className="!text-xs !leading-[1.2] !text-inherit">
+                {t('components.financeSummaryCard.expense')}
+              </Text>
             </Space>
             <Text className="block !text-base !font-bold !leading-tight !text-white">{amountFormatter(expenses)}</Text>
           </div>

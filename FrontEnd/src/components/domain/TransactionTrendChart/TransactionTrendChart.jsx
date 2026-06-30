@@ -1,24 +1,13 @@
 import { useState } from 'react';
 import { Card, Empty, Segmented, Select, Typography, theme } from 'antd';
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { useTranslation } from 'react-i18next';
 
 import { classNames } from '../../../helpers/core/utils';
 import formatCurrency from '../../../helpers/core/formatCurrency';
 
 const { Text, Title } = Typography;
 const { useToken } = theme;
-
-const rangeOptions = [
-  { label: 'Day', value: 'day' },
-  { label: 'Week', value: 'week' },
-  { label: 'Month', value: 'month' },
-  { label: 'Year', value: 'year' }
-];
-
-const metricOptions = [
-  { label: 'Expense', value: 'expense' },
-  { label: 'Income', value: 'income' }
-];
 
 const ChartTooltip = ({ active, payload, label, currency, locale }) => {
   if (!active || !payload?.length) return null;
@@ -40,7 +29,6 @@ const ChartTooltip = ({ active, payload, label, currency, locale }) => {
 };
 
 const TransactionTrendChart = ({
-  title = 'Cash Flow',
   data = [],
   defaultRange = 'day',
   range,
@@ -58,6 +46,20 @@ const TransactionTrendChart = ({
 
   const selectedRange = range || internalRange;
   const selectedMetric = metric || internalMetric;
+
+  const { t } = useTranslation();
+
+  const metricOptions = [
+    { label: t('components.transactionsTrendChart.metricOptions.expense'), value: 'expense' },
+    { label: t('components.transactionsTrendChart.metricOptions.income'), value: 'income' }
+  ];
+
+  const rangeOptions = [
+    { label: t('components.transactionsTrendChart.rangeOptions.day'), value: 'day' },
+    { label: t('components.transactionsTrendChart.rangeOptions.week'), value: 'week' },
+    { label: t('components.transactionsTrendChart.rangeOptions.month'), value: 'month' },
+    { label: t('components.transactionsTrendChart.rangeOptions.year'), value: 'year' }
+  ];
 
   const handleRangeChange = value => {
     if (!range) setInternalRange(value);
@@ -79,9 +81,9 @@ const TransactionTrendChart = ({
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <Title level={5} className="!m-0 !text-base !font-bold">
-              {title}
+              {t('components.transactionsTrendChart.title')}
             </Title>
-            <Text className="!text-secondary !text-xs">Transaction trend</Text>
+            <Text className="!text-secondary !text-xs">{t('components.transactionsTrendChart.subtitle')}</Text>
           </div>
 
           <Select

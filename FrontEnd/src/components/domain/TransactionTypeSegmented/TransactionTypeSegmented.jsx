@@ -1,27 +1,8 @@
 import { Segmented } from 'antd';
 
-import { classNames } from '../../../helpers/core/utils';
+import { useTranslation } from 'react-i18next';
 
-const transactionTypeOptions = [
-  {
-    value: 'income',
-    label: (
-      <span className="inline-flex items-center justify-center gap-2">
-        <span className="bg-success h-2 w-2 rounded-full" />
-        Income
-      </span>
-    )
-  },
-  {
-    value: 'expense',
-    label: (
-      <span className="inline-flex items-center justify-center gap-2">
-        <span className="bg-error h-2 w-2 rounded-full" />
-        Expense
-      </span>
-    )
-  }
-];
+import { classNames } from '../../../helpers/core/utils';
 
 const TransactionTypeSegmented = ({
   value,
@@ -32,7 +13,29 @@ const TransactionTypeSegmented = ({
   className = '',
   ...props
 }) => {
+  const { t } = useTranslation();
   const valueProps = value !== undefined ? { value } : { defaultValue };
+
+  const transactionTypeOptions = [
+    {
+      value: 'income',
+      label: (
+        <span className="inline-flex items-center justify-center gap-2">
+          <span className="bg-success h-2 w-2 rounded-full" />
+          {t('components.transactionTypeSegmented.income')}
+        </span>
+      )
+    },
+    {
+      value: 'expense',
+      label: (
+        <span className="inline-flex items-center justify-center gap-2">
+          <span className="bg-error h-2 w-2 rounded-full" />
+          {t('components.transactionTypeSegmented.expense')}
+        </span>
+      )
+    }
+  ];
 
   return (
     <Segmented

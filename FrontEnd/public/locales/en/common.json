@@ -79,5 +79,63 @@
       "statistics": "Statistics",
       "wallet": "Wallet"
     }
+  },
+  "components": {
+    "financeSummaryCard": {
+      "total": "Total Balance",
+      "income": "Income",
+      "expense": "Expenses"
+    },
+    "transactionsHistory": {
+      "title": "Transactions History",
+      "seeAll": "See all"
+    },
+    "transactionsTrendChart": {
+      "title": "Cash flow",
+      "subtitle": "Transactions trend",
+      "metricOptions": {
+        "income": "Income",
+        "expense": "Expense"
+      },
+      "rangeOptions": {
+        "day": "Day",
+        "week": "Week",
+        "month": "Month",
+        "year": "Year"
+      }
+    },
+    "transactionTypeSegmented": {
+      "income": "Income",
+      "expense": "Expense"
+    },
+    "transactionForm": {
+      "typeSelection": {
+        "label": "Type",
+        "errorMessage": "Select a transaction type"
+      },
+      "categorySelection": {
+        "label": "Category",
+        "placeholder": "Select category",
+        "errorMessage": "Select a transaction category"
+      },
+      "name": {
+        "label": "Name",
+        "placeholder": "Netflix",
+        "errorMessage": "Name cannot exceed 80 characters"
+      },
+      "amount": {
+        "label": "Amount",
+        "placeholder": "48.00",
+        "errorMessage": "Enter an amount"
+      },
+      "date": {
+        "label": "Date",
+        "placeholder": "Select a date",
+        "errorMessage": "Select a date"
+      },
+      "submit": {
+        "label": "Save transaction"
+      }
+    }
   }
 }
