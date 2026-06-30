@@ -1,16 +1,31 @@
 import Api from '../helpers/core/Api';
 
 const extractErrorMessage = error => error.response?.data?.message || error.message;
+const normalizeSuccess = response => {
+  const body = response.data;
+
+  if (body?.success === false) {
+    return {
+      ok: false,
+      status: response.status,
+      kind: 'application',
+      errorMessage: body.message,
+      data: body.data
+    };
+  }
+
+  return {
+    ok: true,
+    status: response.status,
+    data: body?.data ?? body
+  };
+};
 
 const apiClient = async request => {
   try {
     const response = await request();
 
-    return {
-      ok: true,
-      status: response.status,
-      data: response.data?.data ?? response.data
-    };
+    return normalizeSuccess(response);
   } catch (error) {
     return {
       ok: false,
