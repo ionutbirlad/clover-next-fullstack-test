@@ -73,5 +73,93 @@
   },
   "validation": {
     "required": "Campo obbligatorio"
+  },
+  "navigation": {
+    "pages": {
+      "statistics": "Statistiche",
+      "wallet": "Portafoglio"
+    }
+  },
+  "components": {
+    "financeSummaryCard": {
+      "total": "Totale",
+      "income": "Entrate",
+      "expense": "Uscite"
+    },
+    "transactionsHistory": {
+      "title": "Storico Transazioni",
+      "seeAll": "Vedi tutte",
+      "empty": "Ancora nessuna transazione"
+    },
+    "transactionsTrendChart": {
+      "title": "Flusso di cassa",
+      "subtitle": "Trend delle transazioni",
+      "empty": "Nessun trend disponibile ancora",
+      "metricOptions": {
+        "income": "Entrate",
+        "expense": "Uscite"
+      },
+      "rangeOptions": {
+        "day": "Giornaliero",
+        "week": "Settimanale",
+        "month": "Mensile",
+        "year": "Annuale"
+      }
+    },
+    "transactionTypeSegmented": {
+      "income": "Entrata",
+      "expense": "Uscite"
+    },
+    "transactionForm": {
+      "title": "Transazione",
+      "subtitle": "Aggiungi o modifica un movimento finanziario",
+      "typeSelection": {
+        "label": "Tipologia",
+        "errorMessage": "Seleziona una tipologia"
+      },
+      "categorySelection": {
+        "label": "Categoria",
+        "placeholder": "Seleziona una categoria",
+        "errorMessage": "Seleziona una categoria"
+      },
+      "name": {
+        "label": "Nome",
+        "placeholder": "Netflix",
+        "errors": {
+          "required": "Inserisci un nome per la transazione",
+          "exceed": "Il nome non puo superare gli 80 caratteri"
+        }
+      },
+      "amount": {
+        "label": "Importo",
+        "placeholder": "48.00",
+        "errorMessage": "Inserisci un importo"
+      },
+      "date": {
+        "label": "Data",
+        "placeholder": "Seleziona una data",
+        "errorMessage": "Seleziona una data"
+      },
+      "submit": {
+        "label": "Salva transazione"
+      }
+    },
+    "transactionDetailTable": {
+      "empty": "Nessuna transazione selezionata",
+      "title": "Dettagli transazione",
+      "type": {
+        "income": "Entrata",
+        "expense": "Uscita"
+      },
+      "fields": {
+        "status": "Stato",
+        "name": "Nome",
+        "category": "Categoria",
+        "transactionDate": "Data transazione",
+        "created": "Creata",
+        "updated": "Aggiornata",
+        "total": "Totale"
+      }
+    }
   }
 }

@@ -73,5 +73,93 @@
   },
   "validation": {
     "required": "Required field"
+  },
+  "navigation": {
+    "pages": {
+      "statistics": "Statistics",
+      "wallet": "Wallet"
+    }
+  },
+  "components": {
+    "financeSummaryCard": {
+      "total": "Total Balance",
+      "income": "Income",
+      "expense": "Expenses"
+    },
+    "transactionsHistory": {
+      "title": "Transactions History",
+      "seeAll": "See all",
+      "empty": "No transactions yet"
+    },
+    "transactionsTrendChart": {
+      "title": "Cash flow",
+      "subtitle": "Transactions trend",
+      "empty": "No trend data yet",
+      "metricOptions": {
+        "income": "Income",
+        "expense": "Expense"
+      },
+      "rangeOptions": {
+        "day": "Day",
+        "week": "Week",
+        "month": "Month",
+        "year": "Year"
+      }
+    },
+    "transactionTypeSegmented": {
+      "income": "Income",
+      "expense": "Expense"
+    },
+    "transactionForm": {
+      "title": "Transaction",
+      "subtitle": "Create or update a financial movement",
+      "typeSelection": {
+        "label": "Type",
+        "errorMessage": "Select a transaction type"
+      },
+      "categorySelection": {
+        "label": "Category",
+        "placeholder": "Select category",
+        "errorMessage": "Select a transaction category"
+      },
+      "name": {
+        "label": "Name",
+        "placeholder": "Netflix",
+        "errors": {
+          "required": "Enter a transaction name",
+          "exceed": "Name cannot exceed 80 characters"
+        }
+      },
+      "amount": {
+        "label": "Amount",
+        "placeholder": "48.00",
+        "errorMessage": "Enter an amount"
+      },
+      "date": {
+        "label": "Date",
+        "placeholder": "Select a date",
+        "errorMessage": "Select a date"
+      },
+      "submit": {
+        "label": "Save transaction"
+      }
+    },
+    "transactionDetailTable": {
+      "empty": "No transaction selected",
+      "title": "Transaction details",
+      "type": {
+        "income": "Income",
+        "expense": "Expense"
+      },
+      "fields": {
+        "status": "Status",
+        "name": "Name",
+        "category": "Category",
+        "transactionDate": "Transaction date",
+        "created": "Created",
+        "updated": "Updated",
+        "total": "Total"
+      }
+    }
   }
 }

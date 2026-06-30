@@ -1,1 +1,37 @@
-/* SILENCE IS GOLD */
+/* Application styles */
+
+body {
+  font-family: Inter, sans-serif;
+  font-optical-sizing: auto;
+}
+
+/* Global effects */
+.effect-elevated {
+  box-shadow: 0 12px 32px rgb(47 126 121 / 12%);
+  border-color: transparent;
+}
+
+/* Components */
+input {
+  &:focus {
+    color: var(--color-primary);
+  }
+}
+
+.ant-input-number-focused {
+  & .ant-input-number-input {
+    color: var(--color-primary);
+  }
+}
+
+textarea {
+  &:focus {
+    color: var(--color-primary);
+  }
+}
+
+.ant-select-selection-item {
+  &:hover {
+    color: var(--color-primary);
+  }
+}

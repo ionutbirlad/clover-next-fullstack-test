@@ -1,0 +1,19 @@
+.card {
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgb(47 126 121 / 10%);
+}
+
+.see-all-button {
+  color: var(--color-secondary);
+  font-size: 12px;
+  line-height: 1;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: var(--color-primary);
+  }
+}
