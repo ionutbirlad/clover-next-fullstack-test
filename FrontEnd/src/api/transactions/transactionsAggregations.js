@@ -1,4 +1,3 @@
-// TODO: move inside the transactions data layer when the frontend API layer is introduced.
 const getWeekStart = date => {
   const weekStart = new Date(date);
   const day = weekStart.getDay();

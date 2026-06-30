@@ -7,7 +7,7 @@ import TransactionDetailTable from '../components/domain/TransactionDetailTable'
 import TransactionForm from '../components/domain/TransactionForm';
 import TransactionHistory from '../components/domain/TransactionHistory';
 import TransactionTrendChart from '../components/domain/TransactionTrendChart';
-import buildTransactionTrendData from '../components/domain/TransactionTrendChart/buildTransactionTrendData';
+import buildTransactionTrendData from '../api/transactions/transactionsAggregations';
 
 const { Paragraph } = Typography;
 

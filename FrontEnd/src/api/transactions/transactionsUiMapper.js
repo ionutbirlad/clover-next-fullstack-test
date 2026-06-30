@@ -1,4 +1,3 @@
-// TODO: move inside Data Layer when available
 import { faBagShopping, faBriefcase, faReceipt, faUtensils } from '@fortawesome/free-solid-svg-icons';
 
 const transactionCategoryIcons = {
