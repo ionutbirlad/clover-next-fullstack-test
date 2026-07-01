@@ -117,6 +117,7 @@ const TransactionForm = ({
           <CostInput
             className="w-full"
             controls={false}
+            centsBased={false}
             placeholder={t('components.transactionForm.amount.placeholder')}
             currency={currency}
           />
