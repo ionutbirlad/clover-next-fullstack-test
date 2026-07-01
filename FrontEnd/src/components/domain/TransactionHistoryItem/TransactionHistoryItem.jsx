@@ -1,4 +1,7 @@
-import { Space, Typography } from 'antd';
+import { Button, Popconfirm, Space, Typography } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 import TransactionCategoryIcon from '../TransactionCategoryIcon';
 
@@ -16,11 +19,45 @@ const getAmountLabel = ({ amount, type, currency, locale }) => {
   return `${prefix} ${formatCurrency({ value: normalizedAmount, currency, locale })}`;
 };
 
-const TransactionHistoryItem = ({ transaction, currency = 'USD', locale = 'en-US', className = '' }) => {
+const TransactionHistoryItem = ({
+  transaction,
+  currency = 'USD',
+  locale = 'en-US',
+  onDelete,
+  onSelect,
+  deleteLoading = false,
+  className = ''
+}) => {
+  const { t } = useTranslation();
   const isIncome = transaction.type === 'income';
+  const isSelectable = Boolean(onSelect);
+
+  const handleSelect = () => {
+    if (onSelect) onSelect(transaction);
+  };
+
+  const handleKeyDown = event => {
+    if (!isSelectable) return;
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleSelect();
+    }
+  };
 
   return (
-    <div key={transaction.id} className={classNames('flex items-center gap-3', className)}>
+    <div
+      key={transaction.id}
+      role={isSelectable ? 'button' : undefined}
+      tabIndex={isSelectable ? 0 : undefined}
+      onClick={isSelectable ? handleSelect : undefined}
+      onKeyDown={handleKeyDown}
+      className={classNames(
+        'flex items-center gap-3',
+        isSelectable && 'cursor-pointer rounded-xl transition-colors hover:bg-[rgb(47_126_121_/_6%)]',
+        className
+      )}
+    >
       <span
         className={classNames(styles['icon-box'], isIncome ? styles['icon-box-income'] : styles['icon-box-expense'])}
       >
@@ -38,6 +75,27 @@ const TransactionHistoryItem = ({ transaction, currency = 'USD', locale = 'en-US
         <Text className={classNames('!text-sm !font-bold', isIncome ? '!text-success' : '!text-error')}>
           {getAmountLabel({ amount: transaction.amount, type: transaction.type, currency, locale })}
         </Text>
+
+        {onDelete ? (
+          <Popconfirm
+            placement="left"
+            title={t('components.transactionsByTypeTabs.delete.confirmTitle')}
+            okText={t('common.yes')}
+            cancelText={t('common.no')}
+            onConfirm={() => onDelete(transaction)}
+          >
+            <Button
+              type="text"
+              size="small"
+              loading={deleteLoading}
+              aria-label={t('components.transactionsByTypeTabs.delete.ariaLabel')}
+              className="!text-secondary hover:!text-error"
+              icon={<FontAwesomeIcon icon={faTrashAlt} />}
+              onClick={event => event.stopPropagation()}
+              onKeyDown={event => event.stopPropagation()}
+            />
+          </Popconfirm>
+        ) : null}
       </Space>
     </div>
   );

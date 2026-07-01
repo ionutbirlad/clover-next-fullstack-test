@@ -81,6 +81,68 @@
     }
   },
   "components": {
+    "quickActions": {
+      "title": "Azioni rapide",
+      "actions": {
+        "add": "Aggiungi",
+        "wallet": "Wallet",
+        "stats": "Statistiche"
+      }
+    },
+    "mostRecurringExpenses": {
+      "title": "Uscite ricorrenti",
+      "subtitle": "Categorie più frequenti per numero di spese",
+      "count": "{{count}} volte",
+      "empty": "Ancora nessuna uscita"
+    },
+    "walletBalance": {
+      "title": "Saldo totale"
+    },
+    "walletActions": {
+      "title": "Azioni wallet",
+      "actions": {
+        "add": "Aggiungi",
+        "filters": "Filtri",
+        "stats": "Statistiche"
+      }
+    },
+    "addTransactionModal": {
+      "title": "Aggiungi transazione",
+      "error": "Impossibile creare la transazione"
+    },
+    "transactionCategories": {
+      "loadError": "Impossibile caricare le categorie"
+    },
+    "transactionDetailModal": {
+      "title": "Dettagli transazione",
+      "error": "Impossibile caricare i dettagli della transazione"
+    },
+    "transactionsByTypeTabs": {
+      "tabs": {
+        "income": "Entrate",
+        "expense": "Uscite"
+      },
+      "empty": "Nessuna transazione trovata",
+      "delete": {
+        "ariaLabel": "Elimina transazione",
+        "confirmTitle": "Sei sicuro di voler eliminare questa transazione?",
+        "error": "Impossibile eliminare la transazione"
+      }
+    },
+    "topTransactionsCard": {
+      "title": {
+        "income": "Top entrate",
+        "expense": "Top uscite"
+      },
+      "subtitle": {
+        "income": "Movimenti in entrata più alti",
+        "expense": "Movimenti in uscita più alti"
+      },
+      "empty": {
+        "income": "Ancora nessuna entrata",
+        "expense": "Ancora nessuna uscita"
+      }
+    },
     "financeSummaryCard": {
       "total": "Totale",
       "income": "Entrate",
@@ -89,7 +151,8 @@
     "transactionsHistory": {
       "title": "Storico Transazioni",
       "seeAll": "Vedi tutte",
-      "empty": "Ancora nessuna transazione"
+      "empty": "Ancora nessuna transazione",
+      "loadError": "Impossibile caricare le transazioni"
     },
     "transactionsTrendChart": {
       "title": "Flusso di cassa",

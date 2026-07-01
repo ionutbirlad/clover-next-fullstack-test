@@ -78,4 +78,75 @@ const buildTransactionTrendData = ({ transactions = [], range = 'day', locale = 
     .map(({ sortValue, ...item }) => item);
 };
 
+export const buildTransactionsSummary = ({ transactions = [] }) =>
+  transactions.reduce(
+    (summary, transaction) => {
+      const amount = Math.abs(Number(transaction.amount) || 0);
+
+      if (transaction.type === 'income') {
+        return {
+          ...summary,
+          income: summary.income + amount,
+          balance: summary.balance + amount
+        };
+      }
+
+      if (transaction.type === 'expense') {
+        return {
+          ...summary,
+          expenses: summary.expenses + amount,
+          balance: summary.balance - amount
+        };
+      }
+
+      return summary;
+    },
+    {
+      balance: 0,
+      income: 0,
+      expenses: 0
+    }
+  );
+
+export const buildMostRecurringExpenses = ({ transactions = [], limit = 3 }) => {
+  const expenses = transactions.filter(transaction => transaction.type === 'expense');
+  const groups = expenses.reduce((acc, transaction) => {
+    const category = transaction.category || 'other';
+    const current = acc.get(category) || {
+      category,
+      count: 0,
+      total: 0
+    };
+
+    current.count += 1;
+    current.total += Math.abs(Number(transaction.amount) || 0);
+    acc.set(category, current);
+
+    return acc;
+  }, new Map());
+
+  const sortedExpenses = Array.from(groups.values())
+    .sort((a, b) => b.count - a.count || b.total - a.total)
+    .slice(0, limit);
+  const maxCount = sortedExpenses[0]?.count || 0;
+
+  return sortedExpenses.map(expense => ({
+    ...expense,
+    percentage: maxCount ? Math.round((expense.count / maxCount) * 100) : 0
+  }));
+};
+
+export const buildTopTransactions = ({ transactions = [], type = 'expense', limit = 3 }) => {
+  const topTransactions = transactions
+    .filter(transaction => transaction.type === type)
+    .sort((a, b) => Math.abs(Number(b.amount) || 0) - Math.abs(Number(a.amount) || 0))
+    .slice(0, limit);
+  const maxAmount = Math.abs(Number(topTransactions[0]?.amount) || 0);
+
+  return topTransactions.map(transaction => ({
+    ...transaction,
+    percentage: maxAmount ? Math.round((Math.abs(Number(transaction.amount) || 0) / maxAmount) * 100) : 0
+  }));
+};
+
 export default buildTransactionTrendData;
