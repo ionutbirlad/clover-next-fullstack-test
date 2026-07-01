@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Card, message, Modal, Spin, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { faChartArea, faFilter, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +12,6 @@ import TransactionsByTypeTabs from '../components/domain/TransactionsByTypeTabs'
 import transactionsApi from '../api/transactions/transactionsApi';
 import { buildTransactionsSummary } from '../api/transactions/transactionsAggregations';
 import formatCurrency from '../helpers/core/formatCurrency';
-import demoTransactionCategories from './demoTransactionCategories';
 
 const { Text, Title } = Typography;
 
@@ -22,6 +21,8 @@ const WalletPage = () => {
   const [isTransactionDetailModalOpen, setIsTransactionDetailModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [isTransactionDetailLoading, setIsTransactionDetailLoading] = useState(false);
+  const [transactionCategories, setTransactionCategories] = useState([]);
+  const [isTransactionCategoriesLoading, setIsTransactionCategoriesLoading] = useState(false);
   const [walletTransactions, setWalletTransactions] = useState([]);
   const [deletingTransactionId, setDeletingTransactionId] = useState(null);
   const { t } = useTranslation();
@@ -31,6 +32,22 @@ const WalletPage = () => {
     () => buildTransactionsSummary({ transactions: walletTransactions }),
     [walletTransactions]
   );
+
+  const fetchWalletTransactions = useCallback(async () => {
+    const res = await transactionsApi.getTransactions();
+
+    if (!res.ok) throw new Error(res.errorMessage || t('components.transactionsHistory.loadError'));
+
+    return res.data;
+  }, [t]);
+
+  const fetchTransactionCategories = useCallback(async () => {
+    const res = await transactionsApi.getCategories();
+
+    if (!res.ok) throw new Error(res.errorMessage || t('components.transactionCategories.loadError'));
+
+    return res.data;
+  }, [t]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -46,15 +63,11 @@ const WalletPage = () => {
     const fetchTransactions = async () => {
       setLoading(true);
 
-      const res = await transactionsApi.getTransactions();
+      const transactions = await fetchWalletTransactions();
 
       if (!shouldUpdate) return;
 
-      if (res.ok) {
-        setWalletTransactions(res.data);
-      } else {
-        message.error(res.errorMessage || t('components.transactionsHistory.loadError'));
-      }
+      setWalletTransactions(transactions);
 
       setLoading(false);
     };
@@ -62,14 +75,42 @@ const WalletPage = () => {
     fetchTransactions().catch(error => {
       if (!shouldUpdate) return;
 
-      message.error(error.message || t('components.transactionsHistory.loadError'));
+      message.error(error.message);
       setLoading(false);
     });
 
     return () => {
       shouldUpdate = false;
     };
-  }, [t]);
+  }, [fetchWalletTransactions]);
+
+  useEffect(() => {
+    if (!isAddTransactionModalOpen || transactionCategories.length > 0) return undefined;
+
+    let shouldUpdate = true;
+
+    const loadCategories = async () => {
+      setIsTransactionCategoriesLoading(true);
+
+      const categories = await fetchTransactionCategories();
+
+      if (!shouldUpdate) return;
+
+      setTransactionCategories(categories);
+      setIsTransactionCategoriesLoading(false);
+    };
+
+    loadCategories().catch(error => {
+      if (!shouldUpdate) return;
+
+      message.error(error.message);
+      setIsTransactionCategoriesLoading(false);
+    });
+
+    return () => {
+      shouldUpdate = false;
+    };
+  }, [fetchTransactionCategories, isAddTransactionModalOpen, transactionCategories.length]);
 
   const openAddTransactionModal = () => setIsAddTransactionModalOpen(true);
 
@@ -83,10 +124,16 @@ const WalletPage = () => {
     }
   };
 
-  const handleCreateTransaction = values =>
-    Promise.resolve(values).then(() => {
-      closeAddTransactionModal();
-    });
+  const handleCreateTransaction = async values => {
+    const res = await transactionsApi.createTransaction(values);
+
+    if (!res.ok) throw new Error(res.errorMessage || t('components.addTransactionModal.error'));
+
+    const transactions = await fetchWalletTransactions();
+
+    setWalletTransactions(transactions);
+    closeAddTransactionModal();
+  };
 
   const closeTransactionDetailModal = () => {
     setIsTransactionDetailModalOpen(false);
@@ -190,12 +237,15 @@ const WalletPage = () => {
         destroyOnClose
         width={520}
       >
-        <TransactionForm
-          categories={demoTransactionCategories}
-          currency="USD"
-          onSubmit={handleCreateTransaction}
-          className="shadow-none"
-        />
+        <Spin spinning={isTransactionCategoriesLoading}>
+          <TransactionForm
+            categories={transactionCategories}
+            currency="USD"
+            disabled={isTransactionCategoriesLoading}
+            onSubmit={handleCreateTransaction}
+            className="shadow-none"
+          />
+        </Spin>
       </Modal>
 
       <Modal
@@ -209,7 +259,7 @@ const WalletPage = () => {
         <Spin spinning={isTransactionDetailLoading}>
           <TransactionDetailTable
             transaction={selectedTransaction}
-            categories={demoTransactionCategories}
+            categories={transactionCategories}
             className="shadow-none"
           />
         </Spin>

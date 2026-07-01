@@ -107,7 +107,11 @@
       }
     },
     "addTransactionModal": {
-      "title": "Aggiungi transazione"
+      "title": "Aggiungi transazione",
+      "error": "Impossibile creare la transazione"
+    },
+    "transactionCategories": {
+      "loadError": "Impossibile caricare le categorie"
     },
     "transactionDetailModal": {
       "title": "Dettagli transazione",
