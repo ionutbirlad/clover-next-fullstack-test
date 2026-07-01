@@ -106,6 +106,9 @@
         "stats": "Stats"
       }
     },
+    "addTransactionModal": {
+      "title": "Add transaction"
+    },
     "transactionsByTypeTabs": {
       "tabs": {
         "income": "Incomes",

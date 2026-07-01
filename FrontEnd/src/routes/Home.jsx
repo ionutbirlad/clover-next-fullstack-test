@@ -38,7 +38,7 @@ const Home = () => {
     {
       key: 'add',
       label: t('components.quickActions.actions.add'),
-      to: '/wallet',
+      to: '/wallet?action=add',
       icon: faPlus
     },
     {

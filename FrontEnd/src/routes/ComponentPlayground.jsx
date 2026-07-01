@@ -8,16 +8,9 @@ import TransactionForm from '../components/domain/TransactionForm';
 import TransactionHistory from '../components/domain/TransactionHistory';
 import TransactionTrendChart from '../components/domain/TransactionTrendChart';
 import buildTransactionTrendData from '../api/transactions/transactionsAggregations';
+import demoTransactionCategories from './demoTransactionCategories';
 
 const { Paragraph } = Typography;
-
-const demoTransactionCategories = [
-  { value: 'salary', label: 'Salary', type: 'income' },
-  { value: 'freelance', label: 'Freelance', type: 'income' },
-  { value: 'food', label: 'Food', type: 'expense' },
-  { value: 'bills', label: 'Bills', type: 'expense' },
-  { value: 'shopping', label: 'Shopping', type: 'expense' }
-];
 
 // TransactionHistory component
 const demoTransactions = [
