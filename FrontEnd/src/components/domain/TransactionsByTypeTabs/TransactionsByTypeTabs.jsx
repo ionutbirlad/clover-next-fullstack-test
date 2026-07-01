@@ -16,6 +16,7 @@ const TransactionsByTypeTabs = ({
   currency = 'USD',
   locale = 'en-US',
   onDelete,
+  onSelect,
   deletingTransactionId,
   className = ''
 }) => {
@@ -60,6 +61,7 @@ const TransactionsByTypeTabs = ({
                 currency={currency}
                 locale={locale}
                 onDelete={onDelete}
+                onSelect={onSelect}
                 deleteLoading={deletingTransactionId === transaction.id}
               />
             ))}

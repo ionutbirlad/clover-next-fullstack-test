@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Card, message, Modal, Typography } from 'antd';
+import { Card, message, Modal, Spin, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { faChartArea, faFilter, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import ContentPanel from '../components/core/layout/ContentPanel';
 import QuickActionsCard from '../components/domain/QuickActionsCard';
+import TransactionDetailTable from '../components/domain/TransactionDetailTable';
 import TransactionForm from '../components/domain/TransactionForm';
 import TransactionsByTypeTabs from '../components/domain/TransactionsByTypeTabs';
 import transactionsApi from '../api/transactions/transactionsApi';
@@ -19,6 +20,9 @@ const { Text, Title } = Typography;
 const WalletPage = () => {
   const [loading] = useState(false);
   const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] = useState(false);
+  const [isTransactionDetailModalOpen, setIsTransactionDetailModalOpen] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [isTransactionDetailLoading, setIsTransactionDetailLoading] = useState(false);
   const [walletTransactions, setWalletTransactions] = useState(demoTransactions);
   const [deletingTransactionId, setDeletingTransactionId] = useState(null);
   const { t } = useTranslation();
@@ -53,6 +57,33 @@ const WalletPage = () => {
     Promise.resolve(values).then(() => {
       closeAddTransactionModal();
     });
+
+  const closeTransactionDetailModal = () => {
+    setIsTransactionDetailModalOpen(false);
+    setSelectedTransaction(null);
+  };
+
+  const handleOpenTransactionDetail = async transaction => {
+    setIsTransactionDetailModalOpen(true);
+    setSelectedTransaction(null);
+    setIsTransactionDetailLoading(true);
+
+    try {
+      // Temporary local support for mock rows until the wallet list is backed by the API.
+      const isDemoTransaction = String(transaction.id).startsWith('demo-');
+      const res = isDemoTransaction
+        ? { ok: true, data: transaction }
+        : await transactionsApi.getTransactionById(transaction.id);
+
+      if (!res.ok) throw new Error(res.errorMessage || t('components.transactionDetailModal.error'));
+
+      setSelectedTransaction(res.data);
+    } catch (error) {
+      message.error(error.message || t('components.transactionDetailModal.error'));
+    } finally {
+      setIsTransactionDetailLoading(false);
+    }
+  };
 
   const handleDeleteTransaction = async transaction => {
     setDeletingTransactionId(transaction.id);
@@ -121,6 +152,7 @@ const WalletPage = () => {
           <TransactionsByTypeTabs
             transactions={walletTransactions}
             onDelete={handleDeleteTransaction}
+            onSelect={handleOpenTransactionDetail}
             deletingTransactionId={deletingTransactionId}
           />
         </div>
@@ -140,6 +172,23 @@ const WalletPage = () => {
           onSubmit={handleCreateTransaction}
           className="shadow-none"
         />
+      </Modal>
+
+      <Modal
+        title={t('components.transactionDetailModal.title')}
+        open={isTransactionDetailModalOpen}
+        onCancel={closeTransactionDetailModal}
+        footer={null}
+        destroyOnClose
+        width={520}
+      >
+        <Spin spinning={isTransactionDetailLoading}>
+          <TransactionDetailTable
+            transaction={selectedTransaction}
+            categories={demoTransactionCategories}
+            className="shadow-none"
+          />
+        </Spin>
       </Modal>
     </ContentPanel>
   );

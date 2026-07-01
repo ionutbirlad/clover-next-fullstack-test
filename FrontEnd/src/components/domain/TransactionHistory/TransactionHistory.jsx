@@ -13,6 +13,7 @@ const TransactionHistory = ({
   transactions = [],
   maxItems = 5,
   onSeeAll,
+  onSelect,
   currency = 'USD',
   locale = 'en-US',
   className = ''
@@ -48,6 +49,7 @@ const TransactionHistory = ({
               transaction={transaction}
               currency={currency}
               locale={locale}
+              onSelect={onSelect}
             />
           ))}
         </div>

@@ -1,5 +1,5 @@
 import { useContext, useMemo, useState } from 'react';
-import { Badge, Button, Card, Empty, Progress, Typography } from 'antd';
+import { Badge, Button, Card, Empty, message, Modal, Progress, Spin, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faChartArea, faPlus, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
@@ -10,11 +10,14 @@ import AuthContext from '../helpers/core/AuthContext';
 
 import FinanceSummaryCard from '../components/domain/FinanceSummaryCard';
 import TransactionHistory from '../components/domain/TransactionHistory';
+import TransactionDetailTable from '../components/domain/TransactionDetailTable';
 import UserPic from '../components/core/user/UserPic';
 import TransactionCategoryIcon from '../components/domain/TransactionCategoryIcon';
 import QuickActionsCard from '../components/domain/QuickActionsCard';
+import transactionsApi from '../api/transactions/transactionsApi';
 import { buildMostRecurringExpenses } from '../api/transactions/transactionsAggregations';
 import formatCurrency from '../helpers/core/formatCurrency';
+import demoTransactionCategories from './demoTransactionCategories';
 import demoTransactions from './demoTransactions';
 
 const { Text, Title } = Typography;
@@ -32,6 +35,9 @@ const formatCategoryLabel = category =>
 
 const Home = () => {
   const [loading] = useState(false);
+  const [isTransactionDetailModalOpen, setIsTransactionDetailModalOpen] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [isTransactionDetailLoading, setIsTransactionDetailLoading] = useState(false);
   const { logged } = useContext(AuthContext);
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -56,6 +62,33 @@ const Home = () => {
       icon: faChartArea
     }
   ];
+
+  const closeTransactionDetailModal = () => {
+    setIsTransactionDetailModalOpen(false);
+    setSelectedTransaction(null);
+  };
+
+  const handleOpenTransactionDetail = async transaction => {
+    setIsTransactionDetailModalOpen(true);
+    setSelectedTransaction(null);
+    setIsTransactionDetailLoading(true);
+
+    try {
+      // Temporary local support for mock rows until the home history is backed by the API.
+      const isDemoTransaction = String(transaction.id).startsWith('demo-');
+      const res = isDemoTransaction
+        ? { ok: true, data: transaction }
+        : await transactionsApi.getTransactionById(transaction.id);
+
+      if (!res.ok) throw new Error(res.errorMessage || t('components.transactionDetailModal.error'));
+
+      setSelectedTransaction(res.data);
+    } catch (error) {
+      message.error(error.message || t('components.transactionDetailModal.error'));
+    } finally {
+      setIsTransactionDetailLoading(false);
+    }
+  };
 
   return (
     <ContentPanel title="Dashboard" loading={loading}>
@@ -102,7 +135,11 @@ const Home = () => {
         </div>
 
         <div className="col-span-12 md:col-span-7">
-          <TransactionHistory transactions={demoTransactions} onSeeAll={() => navigate('/wallet')} />
+          <TransactionHistory
+            transactions={demoTransactions}
+            onSeeAll={() => navigate('/wallet')}
+            onSelect={handleOpenTransactionDetail}
+          />
         </div>
 
         <div className="col-span-12 md:col-span-5">
@@ -165,6 +202,23 @@ const Home = () => {
           </Card>
         </div>
       </div>
+
+      <Modal
+        title={t('components.transactionDetailModal.title')}
+        open={isTransactionDetailModalOpen}
+        onCancel={closeTransactionDetailModal}
+        footer={null}
+        destroyOnClose
+        width={520}
+      >
+        <Spin spinning={isTransactionDetailLoading}>
+          <TransactionDetailTable
+            transaction={selectedTransaction}
+            categories={demoTransactionCategories}
+            className="shadow-none"
+          />
+        </Spin>
+      </Modal>
     </ContentPanel>
   );
 };

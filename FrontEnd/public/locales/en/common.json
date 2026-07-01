@@ -109,6 +109,10 @@
     "addTransactionModal": {
       "title": "Add transaction"
     },
+    "transactionDetailModal": {
+      "title": "Transaction details",
+      "error": "Unable to load transaction details"
+    },
     "transactionsByTypeTabs": {
       "tabs": {
         "income": "Incomes",

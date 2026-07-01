@@ -109,6 +109,10 @@
     "addTransactionModal": {
       "title": "Aggiungi transazione"
     },
+    "transactionDetailModal": {
+      "title": "Dettagli transazione",
+      "error": "Impossibile caricare i dettagli della transazione"
+    },
     "transactionsByTypeTabs": {
       "tabs": {
         "income": "Entrate",
