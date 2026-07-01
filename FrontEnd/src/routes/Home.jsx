@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Badge, Button, Card, Empty, message, Modal, Progress, Spin, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faChartArea, faPlus, faWallet } from '@fortawesome/free-solid-svg-icons';
@@ -15,10 +15,9 @@ import UserPic from '../components/core/user/UserPic';
 import TransactionCategoryIcon from '../components/domain/TransactionCategoryIcon';
 import QuickActionsCard from '../components/domain/QuickActionsCard';
 import transactionsApi from '../api/transactions/transactionsApi';
-import { buildMostRecurringExpenses } from '../api/transactions/transactionsAggregations';
+import { buildMostRecurringExpenses, buildTransactionsSummary } from '../api/transactions/transactionsAggregations';
 import formatCurrency from '../helpers/core/formatCurrency';
 import demoTransactionCategories from './demoTransactionCategories';
-import demoTransactions from './demoTransactions';
 
 const { Text, Title } = Typography;
 
@@ -34,14 +33,48 @@ const formatCategoryLabel = category =>
     : '';
 
 const Home = () => {
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [transactions, setTransactions] = useState([]);
   const [isTransactionDetailModalOpen, setIsTransactionDetailModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [isTransactionDetailLoading, setIsTransactionDetailLoading] = useState(false);
   const { logged } = useContext(AuthContext);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const mostRecurringExpenses = useMemo(() => buildMostRecurringExpenses({ transactions: demoTransactions }), []);
+  const transactionsSummary = useMemo(() => buildTransactionsSummary({ transactions }), [transactions]);
+  const mostRecurringExpenses = useMemo(() => buildMostRecurringExpenses({ transactions }), [transactions]);
+
+  useEffect(() => {
+    let shouldUpdate = true;
+
+    const fetchTransactions = async () => {
+      setLoading(true);
+
+      const res = await transactionsApi.getTransactions();
+
+      if (!shouldUpdate) return;
+
+      if (res.ok) {
+        setTransactions(res.data);
+      } else {
+        message.error(res.errorMessage || t('components.transactionsHistory.loadError'));
+      }
+
+      setLoading(false);
+    };
+
+    fetchTransactions().catch(error => {
+      if (!shouldUpdate) return;
+
+      message.error(error.message || t('components.transactionsHistory.loadError'));
+      setLoading(false);
+    });
+
+    return () => {
+      shouldUpdate = false;
+    };
+  }, [t]);
+
   const quickActions = [
     {
       key: 'add',
@@ -74,11 +107,7 @@ const Home = () => {
     setIsTransactionDetailLoading(true);
 
     try {
-      // Temporary local support for mock rows until the home history is backed by the API.
-      const isDemoTransaction = String(transaction.id).startsWith('demo-');
-      const res = isDemoTransaction
-        ? { ok: true, data: transaction }
-        : await transactionsApi.getTransactionById(transaction.id);
+      const res = await transactionsApi.getTransactionById(transaction.id);
 
       if (!res.ok) throw new Error(res.errorMessage || t('components.transactionDetailModal.error'));
 
@@ -127,7 +156,11 @@ const Home = () => {
         </div>
 
         <div className="col-span-6 md:col-span-4">
-          <FinanceSummaryCard />
+          <FinanceSummaryCard
+            balance={transactionsSummary.balance}
+            income={transactionsSummary.income}
+            expenses={transactionsSummary.expenses}
+          />
         </div>
 
         <div className="col-span-6 col-start-4 md:col-span-4 md:col-start-auto">
@@ -136,7 +169,7 @@ const Home = () => {
 
         <div className="col-span-12 md:col-span-7">
           <TransactionHistory
-            transactions={demoTransactions}
+            transactions={transactions}
             onSeeAll={() => navigate('/wallet')}
             onSelect={handleOpenTransactionDetail}
           />

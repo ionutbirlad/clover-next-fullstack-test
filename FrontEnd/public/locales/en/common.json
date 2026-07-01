@@ -147,7 +147,8 @@
     "transactionsHistory": {
       "title": "Transactions History",
       "seeAll": "See all",
-      "empty": "No transactions yet"
+      "empty": "No transactions yet",
+      "loadError": "Unable to load transactions"
     },
     "transactionsTrendChart": {
       "title": "Cash flow",
