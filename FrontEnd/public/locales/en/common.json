@@ -114,7 +114,12 @@
         "income": "Incomes",
         "expense": "Expenses"
       },
-      "empty": "No transactions found"
+      "empty": "No transactions found",
+      "delete": {
+        "ariaLabel": "Delete transaction",
+        "confirmTitle": "Are you sure you want to delete this transaction?",
+        "error": "Unable to delete transaction"
+      }
     },
     "topTransactionsCard": {
       "title": {

@@ -15,6 +15,8 @@ const TransactionsByTypeTabs = ({
   defaultType = 'income',
   currency = 'USD',
   locale = 'en-US',
+  onDelete,
+  deletingTransactionId,
   className = ''
 }) => {
   const { t } = useTranslation();
@@ -57,6 +59,8 @@ const TransactionsByTypeTabs = ({
                 transaction={transaction}
                 currency={currency}
                 locale={locale}
+                onDelete={onDelete}
+                deleteLoading={deletingTransactionId === transaction.id}
               />
             ))}
           </div>

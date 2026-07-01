@@ -114,7 +114,12 @@
         "income": "Entrate",
         "expense": "Uscite"
       },
-      "empty": "Nessuna transazione trovata"
+      "empty": "Nessuna transazione trovata",
+      "delete": {
+        "ariaLabel": "Elimina transazione",
+        "confirmTitle": "Sei sicuro di voler eliminare questa transazione?",
+        "error": "Impossibile eliminare la transazione"
+      }
     },
     "topTransactionsCard": {
       "title": {

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Card, Modal, Typography } from 'antd';
+import { Card, message, Modal, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { faChartArea, faFilter, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import ContentPanel from '../components/core/layout/ContentPanel';
 import QuickActionsCard from '../components/domain/QuickActionsCard';
 import TransactionForm from '../components/domain/TransactionForm';
 import TransactionsByTypeTabs from '../components/domain/TransactionsByTypeTabs';
+import transactionsApi from '../api/transactions/transactionsApi';
 import { buildTransactionsSummary } from '../api/transactions/transactionsAggregations';
 import formatCurrency from '../helpers/core/formatCurrency';
 import demoTransactionCategories from './demoTransactionCategories';
@@ -18,10 +19,15 @@ const { Text, Title } = Typography;
 const WalletPage = () => {
   const [loading] = useState(false);
   const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] = useState(false);
+  const [walletTransactions, setWalletTransactions] = useState(demoTransactions);
+  const [deletingTransactionId, setDeletingTransactionId] = useState(null);
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
-  const transactionsSummary = useMemo(() => buildTransactionsSummary({ transactions: demoTransactions }), []);
+  const transactionsSummary = useMemo(
+    () => buildTransactionsSummary({ transactions: walletTransactions }),
+    [walletTransactions]
+  );
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -47,6 +53,26 @@ const WalletPage = () => {
     Promise.resolve(values).then(() => {
       closeAddTransactionModal();
     });
+
+  const handleDeleteTransaction = async transaction => {
+    setDeletingTransactionId(transaction.id);
+
+    try {
+      // Temporary local support for mock rows until the wallet list is backed by the API.
+      const isDemoTransaction = String(transaction.id).startsWith('demo-');
+      const res = isDemoTransaction ? { ok: true } : await transactionsApi.deleteTransaction(transaction.id);
+
+      if (!res.ok) throw new Error(res.errorMessage || t('components.transactionsByTypeTabs.delete.error'));
+
+      setWalletTransactions(currentTransactions =>
+        currentTransactions.filter(currentTransaction => currentTransaction.id !== transaction.id)
+      );
+    } catch (error) {
+      message.error(error.message || t('components.transactionsByTypeTabs.delete.error'));
+    } finally {
+      setDeletingTransactionId(null);
+    }
+  };
 
   const walletActions = [
     {
@@ -92,7 +118,11 @@ const WalletPage = () => {
         </div>
 
         <div className="col-span-12 md:col-span-12">
-          <TransactionsByTypeTabs transactions={demoTransactions} />
+          <TransactionsByTypeTabs
+            transactions={walletTransactions}
+            onDelete={handleDeleteTransaction}
+            deletingTransactionId={deletingTransactionId}
+          />
         </div>
       </div>
 
