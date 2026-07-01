@@ -14,7 +14,6 @@ import ChangePassword from '../components/core/user/ChangePassword';
 import Home from './Home';
 import WalletPage from './WalletPage';
 import StatisticsPage from './StatisticsPage';
-import ComponentPlayground from './ComponentPlayground';
 
 import AuthRoute from '../components/routes/AuthRoute';
 import GuestRoute from '../components/routes/GuestRoute';
@@ -45,8 +44,7 @@ const Index = () => {
       children: [
         { path: '/', index: true, element: <Home /> },
         { path: 'wallet', element: <WalletPage /> },
-        { path: 'statistics', element: <StatisticsPage /> },
-        { path: 'playground', element: <ComponentPlayground /> }
+        { path: 'statistics', element: <StatisticsPage /> }
       ]
     },
     {

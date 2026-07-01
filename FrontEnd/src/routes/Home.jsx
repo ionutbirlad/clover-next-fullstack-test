@@ -17,7 +17,6 @@ import QuickActionsCard from '../components/domain/QuickActionsCard';
 import transactionsApi from '../api/transactions/transactionsApi';
 import { buildMostRecurringExpenses, buildTransactionsSummary } from '../api/transactions/transactionsAggregations';
 import formatCurrency from '../helpers/core/formatCurrency';
-import demoTransactionCategories from './demoTransactionCategories';
 
 const { Text, Title } = Typography;
 
@@ -245,11 +244,7 @@ const Home = () => {
         width={520}
       >
         <Spin spinning={isTransactionDetailLoading}>
-          <TransactionDetailTable
-            transaction={selectedTransaction}
-            categories={demoTransactionCategories}
-            className="shadow-none"
-          />
+          <TransactionDetailTable transaction={selectedTransaction} className="shadow-none" />
         </Spin>
       </Modal>
     </ContentPanel>
