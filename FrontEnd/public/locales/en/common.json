@@ -95,6 +95,9 @@
       "count": "{{count}} times",
       "empty": "No expenses yet"
     },
+    "walletBalance": {
+      "title": "Total Balance"
+    },
     "financeSummaryCard": {
       "total": "Total Balance",
       "income": "Income",

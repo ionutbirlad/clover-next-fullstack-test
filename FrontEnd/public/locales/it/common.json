@@ -95,6 +95,9 @@
       "count": "{{count}} volte",
       "empty": "Ancora nessuna uscita"
     },
+    "walletBalance": {
+      "title": "Saldo totale"
+    },
     "financeSummaryCard": {
       "total": "Totale",
       "income": "Entrate",

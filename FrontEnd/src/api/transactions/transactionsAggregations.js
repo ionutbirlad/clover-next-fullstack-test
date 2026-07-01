@@ -78,6 +78,36 @@ const buildTransactionTrendData = ({ transactions = [], range = 'day', locale = 
     .map(({ sortValue, ...item }) => item);
 };
 
+export const buildTransactionsSummary = ({ transactions = [] }) =>
+  transactions.reduce(
+    (summary, transaction) => {
+      const amount = Math.abs(Number(transaction.amount) || 0);
+
+      if (transaction.type === 'income') {
+        return {
+          ...summary,
+          income: summary.income + amount,
+          balance: summary.balance + amount
+        };
+      }
+
+      if (transaction.type === 'expense') {
+        return {
+          ...summary,
+          expenses: summary.expenses + amount,
+          balance: summary.balance - amount
+        };
+      }
+
+      return summary;
+    },
+    {
+      balance: 0,
+      income: 0,
+      expenses: 0
+    }
+  );
+
 export const buildMostRecurringExpenses = ({ transactions = [], limit = 3 }) => {
   const expenses = transactions.filter(transaction => transaction.type === 'expense');
   const groups = expenses.reduce((acc, transaction) => {
