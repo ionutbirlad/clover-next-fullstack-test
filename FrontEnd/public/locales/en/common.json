@@ -81,6 +81,14 @@
     }
   },
   "components": {
+    "quickActions": {
+      "title": "Quick actions",
+      "actions": {
+        "add": "Add",
+        "wallet": "Wallet",
+        "stats": "Stats"
+      }
+    },
     "financeSummaryCard": {
       "total": "Total Balance",
       "income": "Income",
