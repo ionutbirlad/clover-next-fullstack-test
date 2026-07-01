@@ -93,7 +93,7 @@ const Home = () => {
           </Card>
         </div>
 
-        <div className="col-span-6 bg-amber-50 md:col-span-4">
+        <div className="col-span-6 md:col-span-4">
           <FinanceSummaryCard />
         </div>
 
@@ -101,7 +101,7 @@ const Home = () => {
           <QuickActionsCard title={t('components.quickActions.title')} actions={quickActions} />
         </div>
 
-        <div className="col-span-12 bg-cyan-50 md:col-span-7">
+        <div className="col-span-12 md:col-span-7">
           <TransactionHistory transactions={demoTransactions} onSeeAll={() => navigate('/wallet')} />
         </div>
 
