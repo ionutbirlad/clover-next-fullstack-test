@@ -2,7 +2,6 @@ import { useContext, useMemo, useState } from 'react';
 import { Badge, Button, Card, Empty, Progress, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faChartArea, faPlus, faWallet } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import ContentPanel from '../components/core/layout/ContentPanel';
@@ -12,6 +11,7 @@ import FinanceSummaryCard from '../components/domain/FinanceSummaryCard';
 import TransactionHistory from '../components/domain/TransactionHistory';
 import UserPic from '../components/core/user/UserPic';
 import TransactionCategoryIcon from '../components/domain/TransactionCategoryIcon';
+import QuickActionsCard from '../components/domain/QuickActionsCard';
 import { buildMostRecurringExpenses } from '../api/transactions/transactionsAggregations';
 import formatCurrency from '../helpers/core/formatCurrency';
 import demoTransactions from './demoTransactions';
@@ -36,16 +36,19 @@ const Home = () => {
   const mostRecurringExpenses = useMemo(() => buildMostRecurringExpenses({ transactions: demoTransactions }), []);
   const quickActions = [
     {
+      key: 'add',
       label: t('components.quickActions.actions.add'),
       to: '/wallet',
       icon: faPlus
     },
     {
+      key: 'wallet',
       label: t('components.quickActions.actions.wallet'),
       to: '/wallet',
       icon: faWallet
     },
     {
+      key: 'stats',
       label: t('components.quickActions.actions.stats'),
       to: '/statistics',
       icon: faChartArea
@@ -93,34 +96,7 @@ const Home = () => {
         </div>
 
         <div className="col-span-6 col-start-4 md:col-span-4 md:col-start-auto">
-          <Card
-            bordered={false}
-            className="h-full rounded-[18px] shadow-[0_12px_32px_rgb(47_126_121_/_10%)]"
-            styles={{ body: { height: '100%', padding: 20 } }}
-          >
-            <div className="flex h-full min-h-[108px] flex-col justify-center gap-4">
-              <Title level={5} className="!m-0 !text-center !text-sm !font-bold">
-                {t('components.quickActions.title')}
-              </Title>
-
-              <div className="grid grid-cols-3 gap-2">
-                {quickActions.map(action => (
-                  <Link key={action.label} to={action.to} className="group min-w-0 text-center">
-                    <Button
-                      shape="circle"
-                      size="large"
-                      aria-label={action.label}
-                      className="border-primary !text-primary group-hover:!border-primary group-hover:!bg-primary mx-auto flex h-11 w-11 items-center justify-center group-hover:!text-white"
-                      icon={<FontAwesomeIcon icon={action.icon} />}
-                    />
-                    <Text className="!text-secondary group-hover:!text-primary mt-2 block truncate !text-xs">
-                      {action.label}
-                    </Text>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </Card>
+          <QuickActionsCard title={t('components.quickActions.title')} actions={quickActions} />
         </div>
 
         <div className="col-span-12 bg-cyan-50 md:col-span-7">

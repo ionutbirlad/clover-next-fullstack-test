@@ -98,6 +98,14 @@
     "walletBalance": {
       "title": "Total Balance"
     },
+    "walletActions": {
+      "title": "Wallet actions",
+      "actions": {
+        "add": "Add",
+        "filters": "Filters",
+        "stats": "Stats"
+      }
+    },
     "financeSummaryCard": {
       "total": "Total Balance",
       "income": "Income",

@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react';
 import { Card, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { faChartArea, faFilter, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import ContentPanel from '../components/core/layout/ContentPanel';
+import QuickActionsCard from '../components/domain/QuickActionsCard';
 import { buildTransactionsSummary } from '../api/transactions/transactionsAggregations';
 import formatCurrency from '../helpers/core/formatCurrency';
 import demoTransactions from './demoTransactions';
@@ -13,6 +15,26 @@ const WalletPage = () => {
   const [loading] = useState(false);
   const { t } = useTranslation();
   const transactionsSummary = useMemo(() => buildTransactionsSummary({ transactions: demoTransactions }), []);
+  const walletActions = [
+    {
+      key: 'add',
+      label: t('components.walletActions.actions.add'),
+      to: '/wallet?action=add',
+      icon: faPlus
+    },
+    {
+      key: 'filters',
+      label: t('components.walletActions.actions.filters'),
+      to: '/wallet?panel=filters',
+      icon: faFilter
+    },
+    {
+      key: 'stats',
+      label: t('components.walletActions.actions.stats'),
+      to: '/statistics',
+      icon: faChartArea
+    }
+  ];
 
   return (
     <ContentPanel title="Dashboard" loading={loading}>
@@ -32,7 +54,9 @@ const WalletPage = () => {
           </Card>
         </div>
 
-        <div className="col-span-12 bg-amber-50 md:col-span-6">WALLET ACTIONS HERE</div>
+        <div className="col-span-12 md:col-span-6">
+          <QuickActionsCard title={t('components.walletActions.title')} actions={walletActions} />
+        </div>
 
         <div className="col-span-12 bg-green-50 md:col-span-12">INCOMES AND EXPENSES TAB HERE</div>
       </div>
