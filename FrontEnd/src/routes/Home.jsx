@@ -3,6 +3,7 @@ import { Badge, Button, Card, Empty, Progress, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faChartArea, faPlus, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import ContentPanel from '../components/core/layout/ContentPanel';
 import AuthContext from '../helpers/core/AuthContext';
@@ -33,6 +34,7 @@ const Home = () => {
   const [loading] = useState(false);
   const { logged } = useContext(AuthContext);
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const mostRecurringExpenses = useMemo(() => buildMostRecurringExpenses({ transactions: demoTransactions }), []);
   const quickActions = [
     {
@@ -100,7 +102,7 @@ const Home = () => {
         </div>
 
         <div className="col-span-12 bg-cyan-50 md:col-span-7">
-          <TransactionHistory transactions={demoTransactions} />
+          <TransactionHistory transactions={demoTransactions} onSeeAll={() => navigate('/wallet')} />
         </div>
 
         <div className="col-span-12 md:col-span-5">
