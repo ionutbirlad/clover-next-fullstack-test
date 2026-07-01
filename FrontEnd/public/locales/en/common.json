@@ -106,6 +106,13 @@
         "stats": "Stats"
       }
     },
+    "transactionsByTypeTabs": {
+      "tabs": {
+        "income": "Incomes",
+        "expense": "Expenses"
+      },
+      "empty": "No transactions found"
+    },
     "financeSummaryCard": {
       "total": "Total Balance",
       "income": "Income",

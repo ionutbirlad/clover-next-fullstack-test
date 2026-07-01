@@ -5,6 +5,7 @@ import { faChartArea, faFilter, faPlus } from '@fortawesome/free-solid-svg-icons
 
 import ContentPanel from '../components/core/layout/ContentPanel';
 import QuickActionsCard from '../components/domain/QuickActionsCard';
+import TransactionsByTypeTabs from '../components/domain/TransactionsByTypeTabs';
 import { buildTransactionsSummary } from '../api/transactions/transactionsAggregations';
 import formatCurrency from '../helpers/core/formatCurrency';
 import demoTransactions from './demoTransactions';
@@ -58,7 +59,9 @@ const WalletPage = () => {
           <QuickActionsCard title={t('components.walletActions.title')} actions={walletActions} />
         </div>
 
-        <div className="col-span-12 bg-green-50 md:col-span-12">INCOMES AND EXPENSES TAB HERE</div>
+        <div className="col-span-12 md:col-span-12">
+          <TransactionsByTypeTabs transactions={demoTransactions} />
+        </div>
       </div>
     </ContentPanel>
   );

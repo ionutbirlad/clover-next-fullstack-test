@@ -106,6 +106,13 @@
         "stats": "Statistiche"
       }
     },
+    "transactionsByTypeTabs": {
+      "tabs": {
+        "income": "Entrate",
+        "expense": "Uscite"
+      },
+      "empty": "Nessuna transazione trovata"
+    },
     "financeSummaryCard": {
       "total": "Totale",
       "income": "Entrate",
