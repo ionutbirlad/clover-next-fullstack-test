@@ -13,17 +13,16 @@ import transactionsApi from '../api/transactions/transactionsApi';
 import { buildTransactionsSummary } from '../api/transactions/transactionsAggregations';
 import formatCurrency from '../helpers/core/formatCurrency';
 import demoTransactionCategories from './demoTransactionCategories';
-import demoTransactions from './demoTransactions';
 
 const { Text, Title } = Typography;
 
 const WalletPage = () => {
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] = useState(false);
   const [isTransactionDetailModalOpen, setIsTransactionDetailModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [isTransactionDetailLoading, setIsTransactionDetailLoading] = useState(false);
-  const [walletTransactions, setWalletTransactions] = useState(demoTransactions);
+  const [walletTransactions, setWalletTransactions] = useState([]);
   const [deletingTransactionId, setDeletingTransactionId] = useState(null);
   const { t } = useTranslation();
   const location = useLocation();
@@ -40,6 +39,37 @@ const WalletPage = () => {
       setIsAddTransactionModalOpen(true);
     }
   }, [location.search]);
+
+  useEffect(() => {
+    let shouldUpdate = true;
+
+    const fetchTransactions = async () => {
+      setLoading(true);
+
+      const res = await transactionsApi.getTransactions();
+
+      if (!shouldUpdate) return;
+
+      if (res.ok) {
+        setWalletTransactions(res.data);
+      } else {
+        message.error(res.errorMessage || t('components.transactionsHistory.loadError'));
+      }
+
+      setLoading(false);
+    };
+
+    fetchTransactions().catch(error => {
+      if (!shouldUpdate) return;
+
+      message.error(error.message || t('components.transactionsHistory.loadError'));
+      setLoading(false);
+    });
+
+    return () => {
+      shouldUpdate = false;
+    };
+  }, [t]);
 
   const openAddTransactionModal = () => setIsAddTransactionModalOpen(true);
 
@@ -69,11 +99,7 @@ const WalletPage = () => {
     setIsTransactionDetailLoading(true);
 
     try {
-      // Temporary local support for mock rows until the wallet list is backed by the API.
-      const isDemoTransaction = String(transaction.id).startsWith('demo-');
-      const res = isDemoTransaction
-        ? { ok: true, data: transaction }
-        : await transactionsApi.getTransactionById(transaction.id);
+      const res = await transactionsApi.getTransactionById(transaction.id);
 
       if (!res.ok) throw new Error(res.errorMessage || t('components.transactionDetailModal.error'));
 
@@ -89,9 +115,7 @@ const WalletPage = () => {
     setDeletingTransactionId(transaction.id);
 
     try {
-      // Temporary local support for mock rows until the wallet list is backed by the API.
-      const isDemoTransaction = String(transaction.id).startsWith('demo-');
-      const res = isDemoTransaction ? { ok: true } : await transactionsApi.deleteTransaction(transaction.id);
+      const res = await transactionsApi.deleteTransaction(transaction.id);
 
       if (!res.ok) throw new Error(res.errorMessage || t('components.transactionsByTypeTabs.delete.error'));
 
