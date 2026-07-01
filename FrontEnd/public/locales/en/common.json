@@ -89,6 +89,12 @@
         "stats": "Stats"
       }
     },
+    "mostRecurringExpenses": {
+      "title": "Most recurring expenses",
+      "subtitle": "Top spending categories by frequency",
+      "count": "{{count}} times",
+      "empty": "No expenses yet"
+    },
     "financeSummaryCard": {
       "total": "Total Balance",
       "income": "Income",

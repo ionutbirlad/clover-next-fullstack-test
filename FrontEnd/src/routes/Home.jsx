@@ -1,5 +1,5 @@
-import { useContext, useState } from 'react';
-import { Badge, Button, Card, Typography } from 'antd';
+import { useContext, useMemo, useState } from 'react';
+import { Badge, Button, Card, Empty, Progress, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faChartArea, faPlus, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -11,11 +11,22 @@ import AuthContext from '../helpers/core/AuthContext';
 import FinanceSummaryCard from '../components/domain/FinanceSummaryCard';
 import TransactionHistory from '../components/domain/TransactionHistory';
 import UserPic from '../components/core/user/UserPic';
+import TransactionCategoryIcon from '../components/domain/TransactionCategoryIcon';
+import { buildMostRecurringExpenses } from '../api/transactions/transactionsAggregations';
+import formatCurrency from '../helpers/core/formatCurrency';
 
 const { Text, Title } = Typography;
 
 const getUserDisplayName = user =>
   user?.fullname || [user?.name, user?.lastname].filter(Boolean).join(' ') || user?.email || 'User';
+
+const formatCategoryLabel = category =>
+  category
+    ? category
+        .split(/[-_]/)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+    : '';
 
 // TODO: remove mock
 const demoTransactions = [
@@ -39,7 +50,7 @@ const demoTransactions = [
     dateLabel: 'Yesterday',
     amount: 85,
     type: 'expense',
-    category: 'salary'
+    category: 'shopping'
   },
   {
     id: 'demo-paypal',
@@ -62,6 +73,36 @@ const demoTransactions = [
     amount: 11.99,
     type: 'expense',
     category: 'bills'
+  },
+  {
+    id: 'demo-groceries',
+    title: 'Groceries',
+    date: '2026-05-27T00:00:00.000Z',
+    createdAt: '2026-05-27T18:05:00.000Z',
+    updatedAt: '2026-05-27T18:05:00.000Z',
+    amount: 42.5,
+    type: 'expense',
+    category: 'food'
+  },
+  {
+    id: 'demo-dinner',
+    title: 'Dinner',
+    date: '2026-05-23T00:00:00.000Z',
+    createdAt: '2026-05-23T20:25:00.000Z',
+    updatedAt: '2026-05-23T20:25:00.000Z',
+    amount: 37.9,
+    type: 'expense',
+    category: 'food'
+  },
+  {
+    id: 'demo-electricity',
+    title: 'Electricity bill',
+    date: '2026-05-20T00:00:00.000Z',
+    createdAt: '2026-05-20T09:15:00.000Z',
+    updatedAt: '2026-05-20T09:15:00.000Z',
+    amount: 74.2,
+    type: 'expense',
+    category: 'bills'
   }
 ];
 
@@ -69,6 +110,7 @@ const Home = () => {
   const [loading] = useState(false);
   const { logged } = useContext(AuthContext);
   const { t } = useTranslation();
+  const mostRecurringExpenses = useMemo(() => buildMostRecurringExpenses({ transactions: demoTransactions }), []);
   const quickActions = [
     {
       label: t('components.quickActions.actions.add'),
@@ -162,7 +204,65 @@ const Home = () => {
           <TransactionHistory transactions={demoTransactions} />
         </div>
 
-        <div className="col-span-12 bg-blue-50 md:col-span-5">MOST RECURRENT EXPENSE HERE</div>
+        <div className="col-span-12 md:col-span-5">
+          <Card
+            bordered={false}
+            className="h-full rounded-[18px] shadow-[0_12px_32px_rgb(47_126_121_/_10%)]"
+            styles={{ body: { height: '100%', padding: 20 } }}
+          >
+            <div className="flex h-full min-h-[248px] flex-col gap-5">
+              <div>
+                <Title level={5} className="!m-0 !text-base !font-bold">
+                  {t('components.mostRecurringExpenses.title')}
+                </Title>
+                <Text className="!text-secondary !text-xs">{t('components.mostRecurringExpenses.subtitle')}</Text>
+              </div>
+
+              {mostRecurringExpenses.length > 0 ? (
+                <div className="space-y-4">
+                  {mostRecurringExpenses.map(expense => (
+                    <div key={expense.category} className="flex items-center gap-3">
+                      <span className="text-error flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[rgb(255_56_60_/_8%)]">
+                        <TransactionCategoryIcon category={expense.category} />
+                      </span>
+
+                      <div className="min-w-0 flex-1">
+                        <div className="mb-1 flex items-center justify-between gap-3">
+                          <div className="min-w-0">
+                            <Text className="block truncate !text-sm !font-semibold">
+                              {formatCategoryLabel(expense.category)}
+                            </Text>
+                            <Text className="!text-secondary block truncate !text-xs">
+                              {t('components.mostRecurringExpenses.count', { count: expense.count })}
+                            </Text>
+                          </div>
+
+                          <Text className="shrink-0 !text-sm !font-bold">
+                            {formatCurrency({ value: expense.total, currency: 'USD', locale: 'en-US' })}
+                          </Text>
+                        </div>
+
+                        <Progress
+                          percent={expense.percentage}
+                          showInfo={false}
+                          strokeColor="var(--color-error)"
+                          trailColor="rgb(255 56 60 / 8%)"
+                          className="m-0"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <Empty
+                  image={Empty.PRESENTED_IMAGE_SIMPLE}
+                  description={t('components.mostRecurringExpenses.empty')}
+                  className="mb-0 mt-4"
+                />
+              )}
+            </div>
+          </Card>
+        </div>
       </div>
     </ContentPanel>
   );

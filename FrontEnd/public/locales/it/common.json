@@ -89,6 +89,12 @@
         "stats": "Statistiche"
       }
     },
+    "mostRecurringExpenses": {
+      "title": "Uscite ricorrenti",
+      "subtitle": "Categorie più frequenti per numero di spese",
+      "count": "{{count}} volte",
+      "empty": "Ancora nessuna uscita"
+    },
     "financeSummaryCard": {
       "total": "Totale",
       "income": "Entrate",

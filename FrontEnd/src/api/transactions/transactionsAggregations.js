@@ -78,4 +78,32 @@ const buildTransactionTrendData = ({ transactions = [], range = 'day', locale = 
     .map(({ sortValue, ...item }) => item);
 };
 
+export const buildMostRecurringExpenses = ({ transactions = [], limit = 3 }) => {
+  const expenses = transactions.filter(transaction => transaction.type === 'expense');
+  const groups = expenses.reduce((acc, transaction) => {
+    const category = transaction.category || 'other';
+    const current = acc.get(category) || {
+      category,
+      count: 0,
+      total: 0
+    };
+
+    current.count += 1;
+    current.total += Math.abs(Number(transaction.amount) || 0);
+    acc.set(category, current);
+
+    return acc;
+  }, new Map());
+
+  const sortedExpenses = Array.from(groups.values())
+    .sort((a, b) => b.count - a.count || b.total - a.total)
+    .slice(0, limit);
+  const maxCount = sortedExpenses[0]?.count || 0;
+
+  return sortedExpenses.map(expense => ({
+    ...expense,
+    percentage: maxCount ? Math.round((expense.count / maxCount) * 100) : 0
+  }));
+};
+
 export default buildTransactionTrendData;
