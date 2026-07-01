@@ -73,6 +73,36 @@ const demoTransactions = [
     amount: 74.2,
     type: 'expense',
     category: 'bills'
+  },
+  {
+    id: 'demo-salary',
+    title: 'Salary',
+    date: '2026-05-07T00:00:00.000Z',
+    createdAt: '2026-05-07T09:00:00.000Z',
+    updatedAt: '2026-05-07T09:00:00.000Z',
+    amount: 1800,
+    type: 'income',
+    category: 'salary'
+  },
+  {
+    id: 'demo-consulting',
+    title: 'Consulting',
+    date: '2026-04-15T00:00:00.000Z',
+    createdAt: '2026-04-15T11:20:00.000Z',
+    updatedAt: '2026-04-15T11:20:00.000Z',
+    amount: 540,
+    type: 'income',
+    category: 'freelance'
+  },
+  {
+    id: 'demo-shopping',
+    title: 'Shopping',
+    date: '2026-05-22T00:00:00.000Z',
+    createdAt: '2026-05-22T17:10:00.000Z',
+    updatedAt: '2026-05-22T17:10:00.000Z',
+    amount: 640,
+    type: 'expense',
+    category: 'shopping'
   }
 ];
 

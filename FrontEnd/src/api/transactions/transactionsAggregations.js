@@ -136,4 +136,17 @@ export const buildMostRecurringExpenses = ({ transactions = [], limit = 3 }) => 
   }));
 };
 
+export const buildTopTransactions = ({ transactions = [], type = 'expense', limit = 3 }) => {
+  const topTransactions = transactions
+    .filter(transaction => transaction.type === type)
+    .sort((a, b) => Math.abs(Number(b.amount) || 0) - Math.abs(Number(a.amount) || 0))
+    .slice(0, limit);
+  const maxAmount = Math.abs(Number(topTransactions[0]?.amount) || 0);
+
+  return topTransactions.map(transaction => ({
+    ...transaction,
+    percentage: maxAmount ? Math.round((Math.abs(Number(transaction.amount) || 0) / maxAmount) * 100) : 0
+  }));
+};
+
 export default buildTransactionTrendData;

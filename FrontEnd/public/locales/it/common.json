@@ -113,6 +113,20 @@
       },
       "empty": "Nessuna transazione trovata"
     },
+    "topTransactionsCard": {
+      "title": {
+        "income": "Top entrate",
+        "expense": "Top uscite"
+      },
+      "subtitle": {
+        "income": "Movimenti in entrata più alti",
+        "expense": "Movimenti in uscita più alti"
+      },
+      "empty": {
+        "income": "Ancora nessuna entrata",
+        "expense": "Ancora nessuna uscita"
+      }
+    },
     "financeSummaryCard": {
       "total": "Totale",
       "income": "Entrate",

@@ -113,6 +113,20 @@
       },
       "empty": "No transactions found"
     },
+    "topTransactionsCard": {
+      "title": {
+        "income": "Top income transactions",
+        "expense": "Top spending transactions"
+      },
+      "subtitle": {
+        "income": "Highest incoming movements",
+        "expense": "Highest outgoing movements"
+      },
+      "empty": {
+        "income": "No incomes yet",
+        "expense": "No expenses yet"
+      }
+    },
     "financeSummaryCard": {
       "total": "Total Balance",
       "income": "Income",
